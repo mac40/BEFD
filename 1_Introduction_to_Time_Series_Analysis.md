@@ -2,7 +2,7 @@
 
 ## Real Life Examples
 
-The first step in any time series investigation always involves careful scrutiny of the recordeddata plotted over time
+The first step in any time series investigation always involves careful scrutiny of the recorded data plotted over time
 
 ### Johnson & Johnson
 
@@ -105,3 +105,52 @@ tsplot(x, main="autoregression")
 ```
 
 ### Random walk with drift
+
+![random walk with drift](./Images/rand_walk_drift.png)
+
+for t = 1,2,... with initial condition x_0 = 0, ans where ε_t is white noise. The constant δ is called the drift, and when δ = 0, the model is called simply a random walk because the value of the time t is the value of the series at time t-1 plus a completely random movement determined by ε_t. Note that we may rewrite the previous formula as a cumulative sum of white noise variates.
+
+![rand_walk_drift_sum_white_noise](./Images/rand_walk_drift_sum_white_noise.png)
+
+for t = 1,2,...
+
+```R
+set.seed(154) # so you can reproduce the results
+w = rnorm(200); x = cumsum(w) # two commands in one line
+wd = w + .2; xd = cumsum(wd)
+ts.plot(xd, ylim = c(-5, 55), main = "random walk", ylab ='')
+abline(a = 0, b= .2, lty = 2) # drift
+lines (x, col = 4)
+abline (h = 0, col = 4, lty = 2)
+```
+
+### Measures of Dependence
+
+We now discuss various measures that describe the general behavior of a process as it evolves over time. A rather simple descriptive measure is the mean function, such as the average monthly high temperature for your city. In this case, the mean is a function of time.
+
+#### The mean function
+
+![mean function](./Images/mean_func.png)
+
+#### The autocovariance function
+
+![autocovariance function](./Images/autocov_function.png)
+
+The autocovariance measures the linear dependence between two points on the same series observed at different times
+
+If the result is 0, then x_s and x_t are not linearly related, but there may be some dependence structure between them.
+
+![autocov_function_same_t](./Images/autocov_function_same_t.png)
+
+#### The autocorrelation function (ACF)
+
+![autocorrelation function](./Images/autocorrelation_func.png)
+
+The ACF measures the linear predictability of the series at time _t_, say x_ _t_, using only the value x_ _s_.
+
+The ACF has values in [-1,1], easily shown with Cauchy-Schwarz inequality
+
+If we can predict x_ _t_ perfectly from x_ _s_ through a linear relationship, x_ _t_ = β_0 + β_1 * x_ _s_, then the correlation will be +1 when β_1 > 0, and -1 when β_1 < 0
+
+### Stationary time series
+
