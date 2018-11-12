@@ -1,0 +1,2446 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% KOMA-Script Presentation
+% LaTeX Template
+% Version 1.1 (18/10/15)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original Authors:
+% Marius Hofert (marius.hofert@math.ethz.ch)
+% Markus Kohm (komascript@gmx.info)
+% Described in the PracTeX Journal, 2010, No. 2
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+paper=128mm:96mm, % The same paper size as used in the beamer class
+fontsize=9.5pt, % Font size
+pagesize, % Write page size to dvi or pdf
+parskip=half-, % Paragraphs separated by half a line
+]{scrartcl} % KOMA script (article)
+
+\linespread{1.12} % Increase line spacing for readability
+
+%------------------------------------------------
+% Colors
+\usepackage{xcolor}	 % Required for custom colors
+\usepackage{amsthm} % Required for theorem environments
+\usepackage{bm} % Required for bold math symbols (used in the footer of the slides)
+\usepackage{graphicx} % Required for including images in figures
+\usepackage{tikz} % Required for colored boxes
+\usepackage{booktabs} % Required for horizontal rules in tables
+\usepackage{multicol} % Required for creating multiple columns in slides
+\usepackage{lastpage} % For printing the total number of pages at the bottom of each slide
+\usepackage[english]{babel} % Document language - required for customizing section titles
+\usepackage{microtype} % Better typography
+\usepackage{tocstyle} % Required for customizing the table of contents
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, multicol, amsfonts, amsthm, amscd, epsfig, enumerate}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{caption}
+%\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{graphicx} 
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{url}
+% Define a few colors for making text stand out within the presentation
+\definecolor{mygreen}{RGB}{44,85,17}
+\definecolor{myblue}{RGB}{34,31,217}
+\definecolor{mybrown}{RGB}{194,164,113}
+\definecolor{myred}{RGB}{255,66,56}
+% Use these colors within the presentation by enclosing text in the commands below
+\newcommand*{\mygreen}[1]{\textcolor{mygreen}{#1}}
+\newcommand*{\myblue}[1]{\textcolor{myblue}{#1}}
+\newcommand*{\mybrown}[1]{\textcolor{mybrown}{#1}}
+\newcommand*{\myred}[1]{\textcolor{myred}{#1}}
+%------------------------------------------------
+
+%------------------------------------------------
+% Margins
+\usepackage[ % Page margins settings
+includeheadfoot,
+top=3.5mm,
+bottom=3.5mm,
+left=5.5mm,
+right=5.5mm,
+headsep=6.5mm,
+footskip=8.5mm
+]{geometry}
+%------------------------------------------------
+
+%------------------------------------------------
+% Fonts
+\usepackage[T1]{fontenc}	 % For correct hyphenation and T1 encoding
+\usepackage{lmodern} % Default font: latin modern font
+%\usepackage{fourier} % Alternative font: utopia
+%\usepackage{charter} % Alternative font: low-resolution roman font
+\renewcommand{\familydefault}{\sfdefault} % Sans serif - this may need to be commented to see the alternative fonts
+%------------------------------------------------
+
+%------------------------------------------------
+% Various required packages
+
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% COLORS
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\definecolor{darkross}{rgb}{0.008,0.412,0.471}
+\definecolor{middleross}{rgb}{0.012,0.580,0.663}
+\definecolor{lightross}{rgb}{0.016,0.749,0.855}
+\definecolor{darkblue}{rgb}{0.067,0.008,0.471}
+\definecolor{middleblue}{rgb}{0.094,0.012,0.663}
+\definecolor{lightblue}{rgb}{0.122,0.016,0.855}
+\definecolor{darkpurple}{rgb}{0.471,0.008,0.412}
+\definecolor{middlepurple}{rgb}{0.663,0.012,0.580}
+\definecolor{lightpurple}{rgb}{0.855,0.016,0.749}
+\definecolor{darkbrown}{rgb}{0.471,0.067,0.008}
+\definecolor{middlebrown}{rgb}{0.663,0.094,0.012}
+\definecolor{lightbrown}{rgb}{0.855,0.122,0.016}
+\definecolor{darkolive}{rgb}{0.412,0.471,0.008}
+\definecolor{middleolive}{rgb}{0.580,0.663,0.012}
+\definecolor{lightolive}{rgb}{0.749,0.855,0.016}
+\definecolor{darkgreen}{rgb}{0.008,0.417,0.067}
+\definecolor{middlegreen}{rgb}{0.012,0.663,0.094}
+\definecolor{lightgreen}{rgb}{0.016,0.855,0.122}
+\definecolor{darkocre}{rgb}{0.471,0.298,0.008}
+\definecolor{middleocre}{rgb}{0.663,0.420,0.012}
+\definecolor{lightocre}{rgb}{0.855,0.541,0.016}
+%%%
+\def\colorred{\color{red}}
+\def\colorblue{\color{middleblue}}
+\def\colorgreen{\color{green}}
+\def\colordarkolive{\color{darkolive}}
+\def\coloryellow{\color{yellow}}
+\def\colordarkross{\color{darkross}}
+\def\colordarkblue{\color{darkblue}}
+\def\colorlightblue{\color{lightblue}}
+\def\colorlightbrown{\color{lightbrown}}
+\def\colordarkgreen{\color{darkgreen}}
+
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% DEFINITIONS
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\def\qmo{``}
+\def\qmc{''}
+\def\qmcsp{'' }
+\newcommand\bbone{\ensuremath{\mathbbm{1}}}
+\providecommand{\keywords}[1]{\textbf{Keywords:} #1}
+\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+\providecommand*{\eu}{\ensuremath{\mathrm{e}}}
+\providecommand*{\pastinfo}{\ensuremath{\mathfrak{F}_{t-1}}}
+\providecommand*{\infoset}{\ensuremath{\mathfrak{F}}}
+\newcommand{\reali}{{\rm I}\negthinspace {\rm R}}
+\def\i{{\dot\imath}}
+\def\E{{\mathbb{E}}}
+\newcommand{\sgn}{\text{sgn}}
+\DeclareMathOperator{\plim}{plim}
+%\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+
+\definecolor{light-gray}{gray}{0.98}
+
+\lstset{
+	language=R,
+	commentstyle=\ttfamily\itshape,
+	keywordstyle=\bfseries,
+	basicstyle=\footnotesize\ttfamily,
+	stringstyle=\rmfamily,
+	backgroundcolor=\color{light-gray}, 
+	showspaces=false,               
+	showstringspaces=false,        
+	showtabs=false,                                     
+	rulecolor=\color{black}, 
+	tabsize=2,                   
+	captionpos=b,                   
+	breaklines=true,               
+	breakatwhitespace=false,         
+	title=\lstname,                    
+	keywordstyle=\color{middleblue},          
+	commentstyle=\color{darkbrown},        
+	stringstyle=\color{darkgreen},         
+	escapeinside={(*}{*)},  
+	fancyvrb=true,     
+	alsoother={$},
+	otherkeywords={=,!=, ~, $, *, \&, \%/\%, \%*\%, \%\%, <-, <<-,main,head,as.Date,header,plot,tail,timeSequence,basicStats,acf},
+	deletekeywords={c,R,beta,Call,levels,trace,cut,off,t,D}}
+
+%%%%%%%% PER FAR APPARIRE I SIMBOLI NELLA BIBLIOGRAFIA %%%%%%%%%%
+%\setbeamertemplate{bibliography item}{%
+%	\ifboolexpr{ test {\ifentrytype{book}} or test {\ifentrytype{mvbook}}
+%		or test {\ifentrytype{collection}} or test {\ifentrytype{mvcollection}}
+%		or test {\ifentrytype{reference}} or test {\ifentrytype{mvreference}} }
+%	{\setbeamertemplate{bibliography item}[book]}
+%	{\ifentrytype{online}
+%		{\setbeamertemplate{bibliography item}[online]}
+%		{\setbeamertemplate{bibliography item}[article]}}%
+%	\usebeamertemplate{bibliography item}}
+%
+%\defbibenvironment{bibliography}
+%{\list{}
+%	{\settowidth{\labelwidth}{\usebeamertemplate{bibliography item}}%
+%		\setlength{\leftmargin}{\labelwidth}%
+%		\setlength{\labelsep}{\biblabelsep}%
+%		\addtolength{\leftmargin}{\labelsep}%
+%		\setlength{\itemsep}{\bibitemsep}%
+%		\setlength{\parsep}{\bibparsep}}}
+%{\endlist}
+%{\item}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% INPUT DEFINITIONS
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\input{MyDef/def_greek.tex}
+\input{MyDef/def_letter.tex}
+\input{MyDef/def_letters_s.tex}
+\input{MyDef/def_other.tex}
+\input{MyDef/def_letters_acc.tex}
+\input{MyDef/def_virg.tex}
+
+%------------------------------------------------
+
+%------------------------------------------------
+% Slide layout configuration
+\usepackage{scrpage2} % Required for customization of the header and footer
+\pagestyle{scrheadings} % Activates the pagestyle from scrpage2 for custom headers and footers
+\clearscrheadfoot % Remove the default header and footer
+\setkomafont{pageheadfoot}{\normalfont\color{black}\sffamily} % Font settings for the header and footer
+
+% Sets vertical centering of slide contents with increased space between paragraphs/lists
+\makeatletter
+\renewcommand*{\@textbottom}{\vskip \z@ \@plus 1fil}
+\newcommand*{\@texttop}{\vskip \z@ \@plus .5fil}
+\addtolength{\parskip}{\z@\@plus .25fil}
+\makeatother
+
+% Remove page numbers and the dots leading to them from the outline slide
+\makeatletter
+\newtocstyle[noonewithdot]{nodotnopagenumber}{\settocfeature{pagenumberbox}{\@gobble}}
+\makeatother
+\usetocstyle{nodotnopagenumber}
+
+\AtBeginDocument{\renewcaptionname{english}{\contentsname}{\Large Overview}} % Change the name of the table of contents
+%------------------------------------------------
+
+%------------------------------------------------
+% Header configuration - if you don't want a header remove this block
+\ihead{
+\hspace{-2mm}
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=\paperwidth/2,yshift=-\headheight] (mybar) at (current page.north west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=2\headheight,top color=mygreen!64,bottom color=mygreen]{}; % Colored bar
+\node[below of=mybar,yshift=3.3mm,rectangle,shade,inner sep=0pt,minimum width=128mm,minimum height =1.5mm,top color=black!50,bottom color=white]{}; % Shadow under the colored bar
+shadow
+\end{tikzpicture}
+\color{white}\runninghead} % Header text defined by the \runninghead command below and colored white for contrast
+%------------------------------------------------
+
+%------------------------------------------------
+% Footer configuration
+\setlength{\footheight}{8mm} % Height of the footer
+\addtokomafont{pagefoot}{\footnotesize} % Small font size for the footnote
+
+\ifoot{% Left side
+\hspace{-2mm}
+\begin{tikzpicture}[remember picture,overlay]
+\node [xshift=\paperwidth/2,yshift=\footheight] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=3pt,top color=mygreen,bottom color=mygreen]{}; % Green bar
+\end{tikzpicture}
+\myauthorbar\ \raisebox{0.2mm}{$\bm{\vert}$}\ \myuni % Left side text
+}
+
+\ofoot[\pagemark/\pageref{LastPage}\hspace{-2mm}]{\pagemark/\pageref{LastPage}\hspace{-2mm}} % Right side
+%------------------------------------------------
+
+%------------------------------------------------
+% Section spacing - deeper section titles are given less space due to lesser importance
+\usepackage{titlesec} % Required for customizing section spacing
+\titlespacing{\section}{0mm}{0mm}{0mm} % Lengths are: left, before, after
+\titlespacing{\subsection}{0mm}{0mm}{-1mm} % Lengths are: left, before, after
+\titlespacing{\subsubsection}{0mm}{0mm}{-2mm} % Lengths are: left, before, after
+\setcounter{secnumdepth}{0} % How deep sections are numbered, set to no numbering by default - change to 1 for numbering sections, 2 for numbering sections and subsections, etc
+%------------------------------------------------
+
+%------------------------------------------------
+% Theorem style
+\newtheoremstyle{mythmstyle} % Defines a new theorem style used in this template
+{0.5em} % Space above
+{0.5em} % Space below
+{} % Body font
+{} % Indent amount
+{\sffamily\bfseries} % Head font
+{} % Punctuation after head
+{\newline} % Space after head
+{\thmname{#1}\ \thmnote{(#3)}} % Head spec
+	
+\theoremstyle{mythmstyle} % Change the default style of the theorem to the one defined above
+\newtheorem{theorem}{Theorem}[section] % Label for theorems
+\newtheorem{remark}[theorem]{Remark} % Label for remarks
+\newtheorem{algorithm}[theorem]{Algorithm} % Label for algorithms
+\newtheorem{definition}[theorem]{Definition} % Label for algorithms
+\newtheorem{example}[theorem]{Example} % Label for algorithms
+\makeatletter % Correct qed adjustment
+%------------------------------------------------
+
+%------------------------------------------------
+% The code for the box which can be used to highlight an element of a slide (such as a theorem)
+\newcommand*{\mybox}[2]{ % The box takes two arguments: width and content
+\par\noindent
+\begin{tikzpicture}[mynodestyle/.style={rectangle,draw=mygreen,thick,inner sep=2mm,text justified,top color=white,bottom color=white,above}]\node[mynodestyle,at={(0.5*#1+2mm+0.4pt,0)}]{ % Box formatting
+\begin{minipage}[t]{#1}
+#2
+\end{minipage}
+};
+\end{tikzpicture}
+\par\vspace{-1.3em}}
+%------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION INFORMATION
+%----------------------------------------------------------------------------------------
+
+\newcommand*{\mytitle}{Business, Economic and Financial Data} % Title
+\newcommand*{\runninghead}{Business, Economic and Financial Data} % Running head displayed on almost all slides
+\newcommand*{\myauthor}{Bernardi Mauro\\ \textcolor{green}{Part I. Introduction to Time Series Analysis}} % Presenters name(s)
+\newcommand*{\myauthorbar}{Part I. Introduction to Time Series Analysis}
+\newcommand*{\mydate}{A.Y. 2018--2019} % Presentation date
+\newcommand*{\myuni}{A.Y. 2018--2019} % University or department
+
+%----------------------------------------------------------------------------------------
+
+
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% COLORS
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\definecolor{darkross}{rgb}{0.008,0.412,0.471}
+\definecolor{middleross}{rgb}{0.012,0.580,0.663}
+\definecolor{lightross}{rgb}{0.016,0.749,0.855}
+\definecolor{darkblue}{rgb}{0.067,0.008,0.471}
+\definecolor{middleblue}{rgb}{0.094,0.012,0.663}
+\definecolor{lightblue}{rgb}{0.122,0.016,0.855}
+\definecolor{darkpurple}{rgb}{0.471,0.008,0.412}
+\definecolor{middlepurple}{rgb}{0.663,0.012,0.580}
+\definecolor{lightpurple}{rgb}{0.855,0.016,0.749}
+\definecolor{darkbrown}{rgb}{0.471,0.067,0.008}
+\definecolor{middlebrown}{rgb}{0.663,0.094,0.012}
+\definecolor{lightbrown}{rgb}{0.855,0.122,0.016}
+\definecolor{darkolive}{rgb}{0.412,0.471,0.008}
+\definecolor{middleolive}{rgb}{0.580,0.663,0.012}
+\definecolor{lightolive}{rgb}{0.749,0.855,0.016}
+\definecolor{darkgreen}{rgb}{0.008,0.417,0.067}
+\definecolor{middlegreen}{rgb}{0.012,0.663,0.094}
+\definecolor{lightgreen}{rgb}{0.016,0.855,0.122}
+\definecolor{darkocre}{rgb}{0.471,0.298,0.008}
+\definecolor{middleocre}{rgb}{0.663,0.420,0.012}
+\definecolor{lightocre}{rgb}{0.855,0.541,0.016}
+%%%
+\def\colorred{\color{red}}
+\def\colorblue{\color{middleblue}}
+\def\colorgreen{\color{green}}
+\def\colordarkolive{\color{darkolive}}
+\def\coloryellow{\color{yellow}}
+\def\colordarkross{\color{darkross}}
+\def\colordarkblue{\color{darkblue}}
+\def\colorlightblue{\color{lightblue}}
+\def\colorlightbrown{\color{lightbrown}}
+\def\colordarkgreen{\color{darkgreen}}
+
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% DEFINITIONS
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\def\qmo{``}
+\def\qmc{''}
+\def\qmcsp{'' }
+%\newcommand\bbone{\ensuremath{\mathsfm{1}}}
+\providecommand{\keywords}[1]{\textbf{Keywords:} #1}
+%\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+\providecommand*{\eu}{\ensuremath{\mathrm{e}}}
+\providecommand*{\pastinfo}{\ensuremath{\mathfrak{F}_{t-1}}}
+\providecommand*{\infoset}{\ensuremath{\mathfrak{F}}}
+%\newcommand{\reali}{{\rm I}\negthinspace {\rm R}}
+\def\i{{\dot\imath}}
+\def\E{{\mathsf{E}}}
+%\newcommand{\sgn}{\text{sgn}}
+%\DeclareMathOperator{\plim}{plim}
+%\newcommand{\indep}{\rotatebox[origin=c]{90}{$\models$}}
+
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% INPUT DEFINITIONS
+% :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\input{MyDef/def_greek.tex}
+\input{MyDef/def_letter.tex}
+\input{MyDef/def_letters_s.tex}
+%\input{MyDef/def_other.tex}
+\input{MyDef/def_letters_acc.tex}
+\input{MyDef/def_virg.tex}
+%\newcommand\bbone{\ensuremath{\mathsfm{1}}}
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE SLIDE
+%----------------------------------------------------------------------------------------
+
+% Title slide - you may have to tweak a few of the numbers if you wish to make changes to the layout
+\thispagestyle{empty} % No slide header and footer
+\begin{tikzpicture}[remember picture,overlay] % Background box
+\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/2,top color=mygreen,bottom color=myred]{}; % Change the height of the box, its colors and position on the page here
+\end{tikzpicture}
+% Text within the box
+\begin{flushright}
+\vspace{0.6cm}
+\color{white}\sffamily
+{\bfseries\Large\mytitle\par} % Title
+\vspace{0.5cm}
+\normalsize
+\myauthor\par % Author name
+\mydate\par % Date
+\vfill
+\end{flushright}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\thispagestyle{empty} % No slide header and footer
+
+\small\tableofcontents % Change the font size and print the table of contents - it may be useful to shrink the font size further if the presentation is full of sections
+% To exclude sections/subsections from the table of contents, put an asterisk after \(sub)section like so: \section*{Section Name}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+
+
+
+
+%
+% SLIDE 3 ----------------------------------------------------------
+%
+\section{Introduction}
+
+The analysis of data observed at different time points leads to unique problems. The obvious dependence introduced by the sampling data over time restricts the applicability of many conventional statistical methods that require random samples. 
+
+The analysis of such data is commonly referred to as time series analysis.
+
+In order to provide a statistical setting for describing the character of data that seemingly fluctuate in a random fashion over time, we assume a time series can be defined as a collection of random variables indexed according to the order they are obtained in time. 
+
+For example, if we collect data on daily high temperatures, we may consider the time series as a sequence of random variables, $x_1, x_2, x_3,\dots$, where the random variable $x_1$ denotes the high temperature on day one, the variable $x_2$ denotes the value for the second day, $x_3$ denotes the value for the third day, and so on. 
+\clearpage
+
+In general, a collection of random variables, $\left\{x_t,t=1,2,\dots\right\}$, indexed by $t$ is referred to as a stochastic process. In this text, $t$ will typically be discrete and vary over the integers $t = 0, \pm1, \pm2,\dots$ or some subset of the integers, or a similar index like months of a year.
+
+Historically, time series methods were applied to problems in the physical and environmental sciences. This fact accounts for the basic engineering flavor permeating the language of time series analysis. 
+\clearpage
+
+\section{Examples of time series data}
+
+The first step in any time series investigation always involves careful scrutiny of the recorded data plotted over time. 
+
+The following examples illustrate some of the common kinds of time series data as well as some of the statistical questions that might be asked about such data.
+\clearpage
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Johnson \& Johnson}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_JJ_1.eps}
+%
+\caption{\footnotesize{Quarterly earnings per share for the U.S. company Johnson \& Johnson. }}
+%
+\label{fig:johnsonjohnson}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+Figure \ref{fig:johnsonjohnson} shows quarterly earnings per share for the U.S. company Johnson \& Johnson. 
+
+There are 84 quarters (21 years) measured from the first quarter of 1960 to the last quarter of 1980. 
+
+Modeling such series begins by observing the primary patterns in the time history. In this case, note the increasing underlying trend and variability, and a somewhat regular oscillation superimposed on the trend that seems to repeat over quarters. 
+
+To use R package \texttt{astsa}, and then plot the data for this example using R, type the following (try plotting the logged data yourself).
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+install.packages("astsa", dependences=TRUE)
+library(astsa) 
+tsplot(jj, type="o", ylab="Quarterly Earnings per Share") 
+tsplot(log(jj)) # not shown
+\end{lstlisting}
+\clearpage
+
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{S\&P100 Index}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_SP100_1.eps}
+%
+\caption{\footnotesize{Prices and daily returns of the Standard and Poor's 100 Index (S\&P100) from 1984 to 2017 }}
+%
+\label{fig:sp100}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+As an example of financial time series data, Figure \ref{fig:sp100} (b) shows the daily returns (or percent change) of the Standard and Poor's 100 Index (S\&P100) from 1984 to 2017. It is easy to spot the financial crisis of 2008 in the figure. 
+
+The data shown in Figure \ref{fig:sp100} (b) are typical of return data. The mean of the series appears to be stable with an average return of approximately zero, however, the volatility (or variability) of data exhibits clustering; that is, highly volatile periods tend to be clustered together. 
+
+A problem in the analysis of these type of financial data is to forecast the volatility of future returns. Models have been developed to handle these problems.
+\clearpage
+
+Examples of financial data sets are provided in \texttt{astsa} but \texttt{xts} must be loaded. For example the Dow Jones Industrial Average Index (DJIA) daily log--returns can be calculated as follows:
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+install.packages("xts", dependences=TRUE)
+library(xts)
+djiar = diff(log(djia$Close))[-1] # approximate returns 
+tsplot(djiar, main="DJIA Returns", xlab='', margins=.5)
+\end{lstlisting}
+\clearpage
+
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{USD/GBP Foreign exchange rate}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_FX_1.eps}
+%
+\caption{\footnotesize{Tasso di cambio USD/GBP (U.S. Dollars to One British Pound) dal 11 gennaio 1981 al 6 febbraio 2017 con frequenza settimanale. }}
+%
+\label{fig:usukexchrate_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Crypto currencies}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_CRYPTO_1.eps}
+%
+\caption{\footnotesize{Cryptocurrency \qmo BitCoin\qmcsp from April 28, 2013 to November 25, 2017 (daily frequency). }}
+%
+\label{fig:apple_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{VIX volatility index}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_VIX_1.eps}
+%
+\caption{\footnotesize{CBOE Volatility Index: VIX from January 2, 1990 to February, 23 2017 (daily frequency). }}
+%
+\label{fig:DTB6_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Italian electricity prices}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_PUN_1.eps}
+%
+\caption{\footnotesize{Italian electricity prices (PUN) from April 1, 2004 to December 31, 2016 provided by the \qmo Gestore del Mercato Elettrico\qmcsp (GME). }}
+%
+\label{fig:GME_3D}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Crude oil price in EU}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_OILEU_1.eps}
+%
+\caption{\footnotesize{Crude Oil Prices: Brent - Europe, Dollars per Barrel, Daily, Not Seasonally Adjusted.}}
+%
+\label{fig:GME_Prices_12_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{US real GDP}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_USRGDP_1.eps}
+%
+\caption{\footnotesize{Real Gross Domestic Product, Billions of Chained 2009 Dollars, Quarterly, Seasonally Adjusted Annual.}}
+%
+\label{fig:GME_Prices_12_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{US precipitations}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_USPRECIP_1.eps}
+%
+\caption{\footnotesize{US monthly precipitation series from January 1985 to February 2018 (inches), source: \texttt{https://www.ncdc.noaa.gov/}.}}
+%
+\label{fig:GME_Prices_12_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Air quality}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_AirQuality_1.eps}
+%
+\caption{\footnotesize{AirQualityUCI \texttt{https://archive.ics.uci.edu/ml/datasets/Air+Quality}.}}
+%
+\label{fig:GME_Prices_12_1}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+\subsection*{Code}
+
+The R code for previous examples is
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow=c(2,2))
+tsplot(globtemp, type="o")
+tsplot(diff(globtemp), type="o")
+acf1(globtemp, 48)
+acf1(diff(globtemp), 48)
+\end{lstlisting}
+%
+\textbf{\color{red}Try by yourself, before moving to the next chapters\dots}
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{Global Warming}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_GlobTemp_1.eps}
+%
+\caption{\footnotesize{Global mean land--ocean temperature index from 1880 to 2015, with the base period 1951-1980.}}
+%
+\label{fig:globalwarming}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+
+Consider the global temperature series record shown in Figure \ref{fig:globalwarming}. The data are the global mean land--ocean temperature index from 1880 to 2015, with the base period 1951-1980. 
+
+The values are deviations ($^{\circ}$C) from the 1951-1980 average, updated from Hansen et al. (2006). 
+
+The upward trend in the series during the latter part of the twentieth century has been used as an argument for the climate change hypothesis. Note that the trend is not linear, with periods of leveling off and then sharp upward trends. 
+
+Most climate scientists agree the main cause of the current global warming trend is human expansion of the greenhouse effect: \texttt{https://climate.nasa.gov/causes/}. 
+
+The R code for this example is:
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+tsplot(globtemp, type="o", ylab="Global Temperature Deviations")
+\end{lstlisting}
+\clearpage
+
+
+
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{fMRI imaging}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_fmri_1.eps}
+%
+\caption{\footnotesize{fMRI data from various locations in the cortex, thalamus, and cerebellum; $n = 128$ points, one observation taken every 2 seconds.}}
+%
+\label{fig:fmri}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+Often, time series are observed under varying experimental conditions or treatment configurations. 
+
+Such a set of series is shown in Figure \ref{fig:fmri}, where data are collected from various locations in the brain via functional magnetic resonance imaging (fMRI). In this example, a stimulus was applied for 32 seconds and then stopped for 32 seconds; thus, the signal period is 64 seconds. The sampling rate was one observation every 2 seconds for 256 seconds (n = 128). 
+
+The series are consecutive measures of blood oxygenation--level dependent (bold) signal intensity, which measures areas of activation in the brain. 
+
+Notice that the periodicities appear strongly in the motor cortex series and less strongly in the thalamus and cerebellum. 
+
+The fact that one has series from different areas of the brain suggests testing whether the areas are responding differently to the stimulus. 
+\clearpage
+
+
+Use the following R commands to plot the data:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow=c(2,1), mar=c(3,2,1,0)+.5, mgp=c(1.6,.6,0))
+ts.plot(fmri1[,2:5], col=1:4, ylab="BOLD", xlab="", main="Cortex")
+ts.plot(fmri1[,6:9], col=1:4, ylab="BOLD", xlab="", main="Thalam & Cereb")
+mtext("Time (1 pt = 2 sec)", side=1, line=2)
+\end{lstlisting}
+\clearpage
+
+%
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+% FIGURE: 
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+\subsection{El Ni\~no and fish population}
+\begin{figure}[!h]
+\captionsetup{font={footnotesize}}
+\begin{center}
+%
+\includegraphics[width=0.45\textwidth]{Figures/Example_1_Intro_TSA_ElNino_1.eps}
+%
+\caption{\footnotesize{Monthly SOI and Recruitment (estimated new fish), 1950--1987.}}
+%
+\label{fig:elnino_fish}
+%
+\end{center}
+\end{figure}
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%
+\clearpage
+
+
+We may also be interested in analyzing several time series at once. 
+
+Figure \ref{fig:elnino_fish} shows monthly values of an environmental series called the Southern Oscillation Index (SOI) and associated Recruitment (an index of the number of new fish). 
+
+Both series are for a period of 453 months ranging over the years 1950--1987. 
+
+SOI measures changes in air pressure related to sea surface temperatures in the central Pacific Ocean and smaller values correspond to warmer temperatures. 
+
+During El Ni\~no, the pressure over the eastern and western Pacific reverses. This causes the trade winds to diminish, leading to an eastward movement of warm water along the equator. As a result, the surface waters of the central and eastern Pacific warm with far--reaching consequences to weather patterns. The series show two basic oscillations types, an obvious annual cycle (hot in the summer, cold in the winter), and a slower frequency that seems to repeat about every 4 years. 
+\clearpage
+
+The two series are also related; it is easy to imagine the fish population is dependent on the ocean temperature. 
+
+The following R code will reproduce Figure \ref{fig:elnino_fish}:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow = c(2,1)) # set up the graphics
+tsplot(soi, ylab="", xlab="", main="Southern Oscillation Index") 
+tsplot(rec, ylab="", main="Recruitment")
+\end{lstlisting}
+\clearpage
+
+
+\section{Time series methods}
+
+The primary objective of time series analysis is to develop mathematical models that provide plausible descriptions for sample data.
+
+\subsection{White Noise}
+
+A simple kind of generated series might be a collection of uncorrelated random variables, wt, with mean 0 and finite variance $\sigma_\varepsilon^2$. We denote this process as $\varepsilon_t\sim\mathsf{N}\left(0,\sigma_\varepsilon^2\right)$ . 
+ 
+The time series generated from uncorrelated variables is used as a model for noise in engineering applications where it is called white noise.
+ 
+We often require stronger conditions and need the noise to be Gaussian white noise, wherein the $\varepsilon_t$ are independent and identically distributed (iid) normal random variables, with mean 0 and variance $\sigma_\varepsilon^2$.
+
+Although both cases require zero mean and constant variance, the difference is that generically, the term white noise means the time series is uncorrelated. Gaussian white noise implies normality (which implies independence).
+
+If the stochastic behavior of all time series could be explained in terms of the white noise model, classical statistical methods would suffice. 
+\clearpage
+
+
+\subsection{Moving averages and filters}
+We might replace the white noise series wt by a moving average that smooths the series. For example
+\begin{equation}
+\label{eq:ma_filter_def}
+v_t=\frac{1}{3}\left(\varepsilon_{t-1}+\varepsilon_t+\varepsilon_{t+1}\right).
+\end{equation}
+
+To reproduce a WN and filter in R use the following commands. 
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+w = rnorm(500,0,1) # 500 N(0,1) variates 
+v = filter(w, sides=2, rep(1/3,3)) # moving average 
+par(mfrow=c(2,1))
+tsplot(w, main="white noise")
+tsplot(v, ylim=c(-3,3), main="moving average")
+\end{lstlisting}
+%
+\clearpage
+
+This series is much smoother than the white noise series, and it is apparent that averaging removes some of the high frequency behavior of the noise. 
+
+A linear combination of values in a time series such as in equation \eqref{eq:ma_filter_def} is referred to, generically, as a filtered series; hence the command filter.
+\clearpage
+
+\subsection{Autoregressions}
+
+Suppose we consider the white noise series $\varepsilon_t$ as input and calculate the output using the second--order equation
+\begin{equation}
+\label{eq:ar_filter_def}
+x_t=x_{t-1}-0.9x_{t-2}+\varepsilon_{t},
+\end{equation}
+%
+successively for $t=1,2,\dots$ Equation \eqref{eq:ar_filter_def} represents a regression or prediction of the current value $x_t$ of a time series as a function of the past two values of the series, and, hence, the term autoregression is suggested for this model. 
+
+A problem with startup values exists here because \eqref{eq:ar_filter_def} also depends on the initial conditions $x_0$ and $x_{-1}$, but for now, assume they are zero. We can then generate data recursively by substituting into \eqref{eq:ar_filter_def}. 
+\clearpage
+
+One way to simulate and plot data from the model \eqref{eq:ar_filter_def} in R is to use the following commands (another way is to use \texttt{arima.sim}). The initial conditions are set equal to zero so we let the filter run an extra 50 values to avoid startup problems.
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+w = rnorm(550,0,1) # 50 extra to avoid startup problems
+x = filter(w, filter=c(1,-.9), method="recursive")[-(1:50)] 
+tsplot(x, main="autoregression")
+\end{lstlisting}
+\clearpage
+
+\subsection{Random walk with drift}
+
+A model for analyzing trend such as seen in the global temperature data is the random walk with drift model given by
+\begin{equation}
+\label{eq:rw_def}
+x_t=\delta+x_{t-1}+\varepsilon_{t},
+\end{equation}
+%
+for $t=1,2,\dots$, with initial condition $x_0=0$, and where $\varepsilon_{t}$ is white noise. The constant $\delta$ is called the drift, and when $\delta=0$, the model is called simply a random walk because the value of the time series at time $t$ is the value of the series at time $t-1$ plus a completely random movement determined by $\varepsilon_{t}$. Note that we may rewrite \eqref{eq:rw_def} as a cumulative sum of white noise variates. That is
+%
+\begin{equation}
+\label{eq:rw_def_2}
+x_t=\delta t+\sum_{j=1}^t\varepsilon_{j},
+\end{equation}
+%
+for $t=1,2,\dots$ 
+\clearpage
+
+The following code simulate a RW process (notice the use of multiple commands per line using a semicolon)
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+set.seed(154) # so you can reproduce the results 
+w = rnorm(200); x = cumsum(w) # two commands in one line 
+wd = w +.2; xd = cumsum(wd)
+tsplot(xd, ylim=c(-5,55), main="random walk", ylab='') abline(a=0, b=.2, lty=2) # drift
+lines(x, col=4)
+abline(h=0, col=4, lty=2)
+\end{lstlisting}
+\clearpage
+
+\subsection{Measures of Dependence}
+
+We now discuss various measures that describe the general behavior of a process as it evolves over time. A rather simple descriptive measure is the mean function, such as the average monthly high temperature for your city. In this case, the mean is a function of time.
+
+\subsubsection{The mean function}
+
+The mean function is defined as
+\begin{equation}
+\label{eq:mean_fct_def}
+\mu_{x_t}=\mathsf{E}\left(x_t\right),
+\end{equation}
+%
+provided it exists, where $\mathsf{E}$ denotes the usual expected value operator. When no confusion exists about which time series we are referring to, we will drop a subscript and write $\mu_{x_t}$ as $\mu_t$.
+\clearpage
+
+\subsubsection{The autocovariance function}
+The autocovariance function is defined as the second moment product
+\begin{equation}
+\label{eq:acov_def}
+\gamma_{x}\left(t,s\right)=\mathsf{cov}\left(x_t,x_s\right)=\mathsf{E}\left[\left(x_t-\mu_t\right)\left(x_s-\mu_s\right)\right],
+\end{equation}
+%
+The autocovariance measures the linear dependence between two points on the same series observed at different times. 
+
+Recall from classical statistics that if $\gamma_{x}\left(t,s\right)=0$, then $x_s$ and $x_t$ are not linearly related, but there still may be some dependence structure between them. 
+
+If, however, $x_t$ and $x_s$ are bivariate normal, $\gamma_{x}\left(t,s\right)=0$ ensures their independence. It is clear that, for $s = t$, the autocovariance reduces to the (assumed finite) variance, because
+\begin{equation}
+\label{eq:acov_0_def}
+\gamma_{x}\left(t,t\right)=\mathsf{cov}\left(x_t,x_t\right)=\mathsf{E}\left[\left(x_t-\mu_t\right)^2\right]=\mathsf{var}(x_t).
+\end{equation}
+%
+\clearpage
+
+\subsubsection{The autocorrelation function}
+
+The autocorrelation function (ACF) is defined as
+\begin{equation}
+\label{eq:acf_def}
+\rho_{x}\left(t,s\right)=\frac{\gamma_{x}\left(t,s\right)}{\sqrt{\gamma_{x}\left(t,t\right)}\sqrt{\gamma_{x}\left(s,s\right)}}.
+\end{equation}
+%
+The ACF measures the linear predictability of the series at time $t$, say $x_t$, using only the value $x_s$. 
+
+We can show easily that $-1 \leq\rho_{x}\left(t,s\right) \leq 1$ using the Cauchy--Schwarz inequality.
+
+If we can predict $x_t$ perfectly from $x_s$ through a linear relationship, $x_t = \beta_0 + \beta_1x_s$, then the correlation will be $+1$ when
+$\beta_1> 0$, and $-1$ when $\beta_1<0$. 
+
+Hence, we have a rough measure of the ability to forecast the series at time $t$ from the value at time $s$.
+\clearpage
+
+\subsection{Stationary time series}
+
+The preceding definitions of the mean and autocovariance functions are completely general. Although we have not made any special assumptions about the behavior of the time series, many of the preceding examples have hinted that a sort of regularity may exist over time in the behavior of a time series.
+
+\begin{definition}
+A strictly stationary time series is one for which the probabilistic behavior of every collection of values and shifted values
+\begin{equation}
+\left\{x_{t_1},x_{t_2},\dots,x_{t_k}\right\},\qquad\left\{x_{t_1+h},x_{t_2+h},\dots,x_{t_k+h}\right\},
+\end{equation}
+%
+are identical, for all $k = 1, 2, \dots$, all time points $t_1, t_2, \dots , t_k$, and all time shifts
+$h = 0,\pm1,\pm2,\dots$
+\end{definition}
+\clearpage
+
+It is difficult to assess strict stationarity from data, however, stationary time series data should exhibit similar behaviors over different time intervals. 
+
+A series that is obviously not stationary because of trend is global temperature.
+
+ A series that appears to be stationary is the moving average. 
+ 
+Rather than imposing conditions on all possible distributions of a time series, we will use a milder version that imposes conditions only on the first two moments of the series.
+
+\clearpage
+
+\begin{definition}
+A weekly stationary time series is a finite variance process where
+\begin{itemize}
+\item[{(i)}] the mean value function, $\mu_t$ is constant and does not depend on time $t$, and
+\item[{(ii)}] the autocovariance function, $\gamma(t,s)$ depends on s and t only through their distance $\vert t-s\vert$.
+%
+\end{itemize}
+%
+Henceforth, we will use the term stationary to mean weakly stationary; if a process is stationary in the strict sense, we will use the term strictly stationary.
+\end{definition}
+%
+Stationarity requires regularity in the mean and autocorrelation functions so that these quantities (at least) may be estimated by averaging. It should be clear that a strictly stationary, finite variance, time series is also stationary. The converse is not true in general. 
+
+One important case where stationarity implies strict stationarity is if the time series is Gaussian (meaning all finite collections of the series are Gaussian).
+\clearpage
+
+\begin{definition}
+The autocovariance function of a stationary time series is defined as
+\begin{equation}
+\label{eq:acov_stat_def}
+\gamma_{x}\left(t+h,t\right)=\mathsf{cov}\left(x_{t+h},x_{t}\right)=\mathsf{E}\left[\left(x_{t+h}-\mu\right)\left(x_t-\mu\right)\right],
+\end{equation}
+%
+and the autocorrelation function (ACF) 
+will be written as
+\begin{equation}
+\label{eq:acf_def}
+\rho_{x}\left(h\right)=\frac{\gamma_{x}\left(h\right)}{\gamma_{x}\left(0\right)}.
+\end{equation}
+%
+\end{definition}
+
+
+
+\clearpage
+
+
+\begin{definition}[Wold Decomposition] Any stationary time series, $x_t$, can be written as linear combination (filter) of white noise terms; that is,
+\begin{equation}
+\label{eq:wold_stat_def}
+\gamma_{x}\left(t+h,t\right)=\mu+\sum_{j=0}^\infty\psi_j\varepsilon_{t-j},
+\end{equation}
+where the $\psi$'s are numbers satisfying $\sum_{j=0}^\infty\psi_j^2<\infty$ with $\psi_0=1$ and $\varepsilon_{t}\sim\mathsf{WN}\left(0,\sigma^2_\varepsilon\right)$. We call these
+linear processes.
+\end{definition}
+\clearpage
+
+\subsection{Exercises}
+
+\subsubsection*{Exercise 1.}
+Let $v_t$ a moving average filter defined in equation \eqref{eq:ma_filter_def}
+%
+\begin{equation}
+v_t=\frac{1}{3}\left(\varepsilon_{t-1}+\varepsilon_t+\varepsilon_{t+1}\right),\nonumber
+\end{equation}
+then
+\begin{itemize}
+\item[(1.1)] calculate the mean function of $v_t$;
+\item[(1.2)] calculate the autocovariance function of $v_t$;
+\item[(1.3)] calculate the autocorrelation function of $v_t$.
+\end{itemize}
+
+\subsubsection*{Exercise 2.}
+Let $\varepsilon_{t}\sim\mathsf{WN}\left(0,\sigma^2_\varepsilon\right)$ 
+%
+then
+\begin{itemize}
+\item[(2.1)] calculate the autocovariance function of $v_t$;
+\item[(2.2)] calculate the autocorrelation function of $v_t$.
+\end{itemize}
+
+
+\subsubsection*{Exercise 3.}
+Let $x_t$ a random walk with drift process
+%
+then
+\begin{itemize}
+\item[(3.1)] calculate the mean function of $x_t$;
+\item[(3.2)] calculate the autocovariance function of $x_t$;
+\item[(3.3)] calculate the autocorrelation function of $x_t$.
+\end{itemize}
+
+\subsubsection*{Exercise 4.}
+Let $x_t=\phi x_{t-1}+\varepsilon_{t}$ where $\varepsilon_{t}\sim\mathsf{WN}\left(0,\sigma^2_\varepsilon\right)$ and $\vert\phi\vert<1$,
+%
+then
+\begin{itemize}
+\item[(4.1)] calculate the mean function of $x_t$;
+\item[(4.2)] calculate the variance function of $x_t$;
+\item[(4.3)] calculate the autocovariance function of $x_t$;
+\item[(4.4)] calculate the autocorrelation function of $x_t$.
+\end{itemize}
+
+\textbf{\color{red}Try by yourself, before moving to the next chapters\dots}
+
+\clearpage
+
+
+
+
+\section{ARIMA Models}
+
+
+
+
+
+
+
+\subsection{Introduction}
+Classical regression is often insufficient for explaining all of the interesting dynamics of a time series. Instead, the introduction of correlation through lagged linear relationships leads to proposing the autoregressive (AR) and moving average (MA) models. 
+
+Often, these models are combined to form the autoregressive moving average (ARMA) model. 
+
+Adding nonstationary models to the mix leads to the autoregressive integrated moving average (ARIMA) model popularized in the landmark work by Box and Jenkins (1970). 
+
+Seasonal data lead to seasonal autoregressive integrated moving average (SARIMA) models. 
+
+The Box--Jenkins method for identifying a plausible models is given in this chapter along with techniques for parameter estimation and forecasting.
+
+
+\subsection{Autoregressive processes}
+
+
+First, we investigate autoregressive models, which are an obvious extension of linear regression models.
+
+\begin{definition}
+An autoregressive model of order $p$, abbreviated AR(p), is of the form
+%
+\begin{equation}
+\label{eq:arp_def}
+x_t=\phi_1x_{t-1}+\phi_2x_{t-2} +\dots+\phi_px_{t-p} +\varepsilon_t,
+\end{equation}
+%
+where $x_t$ is stationary, and $\phi_1$, $\phi_2$, \dots, $\phi_p$ are constants $\phi_p\neq 0$. 
+%
+Although it is not necessary yet, we assume that $\varepsilon$ is a Gaussian white noise series with mean zero and variance $\sigma_\varepsilon^2$, abbreviated $\varepsilon\sim\mathsf{WN}\left(0,\sigma_\varepsilon^2\right)$, unless otherwise stated. If the mean, $\mu$, of $x_t$ is not zero, replace $x_t$ by $x_t-\mu$ in equation \eqref{eq:arp_def},
+%
+\begin{equation}
+\label{eq:arp_def_demean}
+x_t-\mu=\phi_1\left(x_{t-1}-\mu\right)+\phi_2\left(x_{t-2}-\mu\right) +\dots+\phi_p\left(x_{t-p}-\mu\right)+\varepsilon_t,
+\end{equation}
+%
+or write
+%
+\begin{equation}
+\label{eq:arp_def_2}
+x_t=\alpha+\phi_1x_{t-1}+\phi_2x_{t-2} +\dots+\phi_px_{t-p} +\varepsilon_t,
+\end{equation}
+%
+where $\alpha=\mu\left(1-\phi_1-\dots-\phi_p\right)$.
+\end{definition}
+\clearpage
+
+A useful form follows by using the backshift operator, $L^k x_t = x_{t-k}$, to write the AR(p) model, in equation \eqref{eq:arp_def}, as
+%
+\begin{equation*}
+x_t=\left(1-\phi_1L-\phi_2 L^2+\dots+\phi_pL^p\right)x_t+\varepsilon_t,
+\end{equation*}
+%
+or even more concisely as
+%
+\begin{equation*}
+x_t=\phi\left(L\right)x_t+\varepsilon_t,
+\end{equation*}
+%
+where $\phi\left(L\right)=\left(1-\phi_1L-\phi_2 L^2+\dots+\phi_pL^p\right)$.
+
+We note that equation \eqref{eq:arp_def} is similar to the regression model, and hence the term auto (or self) regression. Some technical difficulties develop from applying that model because the regressors, $x_{t-1},\dots,x_{t-p}$, are random components, whereas in regression, the regressors are assumed to be fixed. 
+\clearpage
+
+
+\begin{example}[AR(1) process]
+
+Thus, in this case, the sample path is very choppy. The following R code simulates an AR(1) process is:
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow=c(2,1))
+tsplot(arima.sim(list(order=c(1,0,0), ar=.9), n=100), ylab="x",
+           main=(expression(AR(1)~~~phi==+.9)))
+tsplot(arima.sim(list(order=c(1,0,0), ar=-.9), n=100), ylab="x",
+           main=(expression(AR(1)~~~phi==-.9)))
+\end{lstlisting}
+\end{example}
+\clearpage
+
+
+\subsection{Moving average processes}
+
+
+As an alternative to autoregression, think of wt as a \qmo shock\qmcsp to the process at time $t$. One can imagine that what happens today might be related to shocks from a few previous days. In this case, we have the moving average model of order $q$, abbreviated as MA(q).
+%
+\begin{definition}
+The moving average model of order $q$, or MA(q) model, is defined to be
+%
+\begin{equation}
+\label{eq:maq_def}
+x_t=\theta_1\varepsilon_{t-1}+\theta_2\varepsilon_{t-2} +\dots+\theta_p\varepsilon_{t-q} +\varepsilon_t,
+\end{equation}
+%
+where there are $q$ lags in the moving average and $\theta_1,\theta_2,\dots,\theta_q$ with $\left(\theta_q\neq 0\right)$ are parameters. Although it is not necessary yet, we assume that $\varepsilon_t$ is a Gaussian white noise series with mean zero and variance $\sigma_\varepsilon^2$, unless otherwise stated. As in the AR(p) case, the MA(q) model may be written as
+%
+\begin{equation*}
+x_t=\left(1+\theta_1L+\theta_2 L^2+\dots+\theta_qL^q\right)\varepsilon_t,
+\end{equation*}
+%
+or more concisely as
+%
+\begin{equation*}
+x_t=\theta\left(L\right)\varepsilon_t.
+\end{equation*}
+%
+Unlike the autoregressive process, the moving average process is stationary for
+any values of the parameters.
+\end{definition}
+\clearpage
+
+
+
+
+\clearpage
+
+\begin{example}[MA(1) process]
+
+The following R code simulates an MA(1) process is:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow = c(2,1))
+tsplot(arima.sim(list(order=c(0,0,1), ma=.9),  n=100), ylab="x",
+           main=(expression(MA(1)~~~theta==+.5)))
+tsplot(arima.sim(list(order=c(0,0,1), ma=-.9), n=100), ylab="x",
+           main=(expression(MA(1)~~~theta==-.5)))
+\end{lstlisting}
+\end{example}
+\clearpage
+
+\subsection{ARMA processes}
+
+
+We now proceed with the general development of mixed autoregressive moving average (ARMA) models for stationary time series.
+
+\begin{definition}
+A time series ${x_t, t = 0, \pm1, \pm2,\dots}$ is ARMA(p,q) if it is stationary and
+%
+\begin{equation}
+\label{eq:arp_maq_def}
+x_t=\phi_1x_{t-1}+\phi_2x_{t-2} +\dots+\phi_px_{t-p}+ \theta_1\varepsilon_{t-1}+\theta_2\varepsilon_{t-2} +\dots+\theta_p\varepsilon_{t-q}+\varepsilon_t,
+\end{equation}
+%
+with $\phi_p\neq 0$, $\theta_q\neq 0$, and $\sigma_\varepsilon^2>0$. The parameters $p$ and $q$ are called the autoregressive and the moving average orders, respectively. If $x_t$ has a nonzero mean $\mu$, we set $\alpha=\mu\left(1-\phi_1-\dots-\phi_p\right)$, and we write the model in equation \eqref{eq:arp_maq_def} as
+%
+\begin{equation}
+\label{eq:arp_maq_def_2}
+x_t=\alpha+\phi_1x_{t-1}+\phi_2x_{t-2} +\dots+\phi_px_{t-p}+ \theta_1\varepsilon_{t-1}+\theta_2\varepsilon_{t-2} +\dots+\theta_p\varepsilon_{t-q}+\varepsilon_t.
+\end{equation}
+%
+Although it is not necessary yet, we assume that $\varepsilon_t$ is a Gaussian white noise
+series with mean zero and variance $\sigma_\varepsilon^2$, unless otherwise stated.
+\end{definition}
+\clearpage
+
+The ARMA model may be seen as a regression of the present outcome $(x_t)$ on the past outcomes $\left(x_{t-1},\dots, x_{t-p}\right)$, with correlated errors.
+
+The ARMA(p,q) model in equation \eqref{eq:arp_maq_def} may be written in concise form as
+%
+\begin{equation}
+\label{eq:arp_maq_def_3}
+\phi\left(L\right)x_t=\theta\left(L\right)\varepsilon_t.
+\end{equation}
+%
+The concise form of an ARMA model points to a potential problem in that we can unnecessarily complicate the model by multiplying both sides by another operator, say
+%
+\begin{equation}
+\label{eq:arp_maq_def_4}
+\eta\left(L\right)\phi\left(L\right)x_t=\eta\left(L\right)\theta\left(L\right)\varepsilon_t.
+\end{equation}
+%
+without changing the dynamics. 
+\clearpage
+
+
+
+Henceforth, we will require an ARMA model to have no common factors, so that it is reduced to its simplest form. In addition, for the purposes of estimation and forecasting, we will require an ARMA model to be causal (or non--anticipative) and invertible as defined below.
+
+\begin{definition}[Causality]
+Consider an ARMA(p,q) process, $\phi(L)x_t=\theta(L)\varepsilon_t$, where $\phi(L)$ and $\theta(L)$ do not have common factors. The causal form of the model is given by
+%
+\begin{align}
+x_t&=\phi(L)^{-1}\theta(L)\varepsilon_t\nonumber\\
+&=\psi(L)\varepsilon_t=\sum_{j=0}^\infty\psi_j\varepsilon_{t-j},
+\label{eq:wold_causality_AR}
+\end{align}
+%
+where $\psi(L)=\sum_{j=0}^\infty\psi_jL^j$ with $\psi_0=1$ and $\phi(L)^{-1}$ exists. When it does exists, then $\phi(L)^{-1}\phi(L)=1$. Also, since $x_t=\psi(L)\varepsilon_t$, we must have $\phi(L)\psi(L)\varepsilon_t=\theta(L)\varepsilon_t$ so the parameters $\psi_j$ may be obtained by matching coefficients of $L$ in 
+%
+\begin{align}
+\psi(L)\phi(L)=\theta(L).
+\end{align}
+%
+\end{definition}
+
+\clearpage
+
+\begin{definition}[Invertibility]
+Consider an ARMA(p,q) process, $\phi(L)x_t=\theta(L)\varepsilon_t$, where $\phi(L)$ and $\theta(L)$ do not have common factors. The invertible form of the model is given by
+%
+\begin{align}
+\varepsilon_t&=\theta(L)^{-1}\phi(L)x_t\nonumber\\
+&=\pi(L)x_t=\sum_{j=0}^\infty\pi_j x_{t-j},
+\label{eq:wold_causality_MA}
+\end{align}
+%
+where $\pi(L)=\sum_{j=0}^\infty\pi_jL^j$ with $\pi_0=1$ and $\theta(L)^{-1}$ exists. When it does exists, then $\theta(L)^{-1}\theta(L)=1$. The parameters $\pi_j$ may be obtained by matching coefficients of $L$ in 
+%
+\begin{align}
+\pi(L)\theta(L)=\psi(L).\nonumber
+\end{align}
+%
+\end{definition}
+
+
+\begin{remark}
+Causality requires that the present value of the time series, $x_t$, does not depend on the future (otherwise, forecasting would be futile). Invertibility requires that the present shock, $\varepsilon_t$, does not depend on the future.
+\end{remark}
+
+
+\begin{definition}[Causality and invertibility, existence]
+Let 
+\begin{align}
+\phi(z)&=1-\phi_1z-\dots-\phi_pz^p\nonumber\\
+\theta(z)&=1+\theta_1z+\dots,\theta_qz^q,\nonumber
+\end{align}
+be the AR and MA polynomials obtained by replacing the backshift operator $L$ by a complex number $z$. 
+
+An ARMA(p,q) model $\phi(L)x_t=\theta(L)\varepsilon_t$ is casual if and only if $\phi(z)\neq 0$ for all $z\leq 1$. The coefficients of the linear process given in equation \eqref{eq:wold_causality_AR} ca be determined by solving 
+\begin{align}
+\psi(z)=\sum_{j=0}^\infty\psi_jz^j=\frac{\theta(z)}{\phi(z)},\qquad\vert z\vert\leq 1,\nonumber
+\end{align}
+with $\psi_0=1$. 
+
+An ARMA(p,q) model is invertible if and only if $\theta(z)\neq 0$ for $\vert z\vert\leq 1$. The coefficients $\pi_j$ of $\pi(L)$ of the linear process given in equation \eqref{eq:wold_causality_MA} ca be determined by solving 
+\begin{align}
+\pi(z)=\sum_{j=0}^\infty\pi_jz^j=\frac{\phi(z)}{\theta(z)},\qquad\vert z\vert\leq 1,\nonumber
+\end{align}
+with $\psi_0=1$. 
+\end{definition}
+
+
+
+
+
+
+
+
+\clearpage
+\subsection{Autocorrelation and Partial Autocorrelation}
+
+
+\subsubsection{The autocorrelation function}
+
+
+\begin{example}[The ACF of MA(q)]
+The MA(q) model is defined in equation \eqref{eq:maq_def}. Because $x_t$ is a finite linear combination of white noise terms, the process is stationary with mean
+%
+\begin{equation}
+\mathsf{E}\left(x_t\right)=\sum_{j=0}^q\theta_j\mathsf{E}\left(\varepsilon_{t-j}\right)=0,
+\end{equation}
+where we have written $\theta_0=1$, and with auto--covariance function
+%
+\begin{align}
+\label{eq:acf_maq}
+\gamma\left(h\right)&=\mathsf{cov}\left(x_{t+h},x_{t}\right)=\mathsf{cov}\left(\sum_{j=0}^q\theta_j\varepsilon_{t+h-j},\sum_{k=0}^q\theta_k\varepsilon_{t-k}\right)\nonumber\\
+&=\begin{cases}
+\sigma_\varepsilon^2\sum_{j=0}^{q-h}\theta_j\theta_{j+h},&\qquad 0\leq h\leq q\\
+0,&\qquad h>q.
+\end{cases}
+\end{align}
+The cutting off of $\gamma(h)$ after $q$ lags is the signature of the MA(q) model. Dividing \eqref{eq:acf_maq} by $\gamma(0)$ yields the ACF of an MA(q).
+\end{example}
+
+\clearpage
+
+
+\begin{example}[The ACF of AR(p)]
+The AR(p) model is defined in equation \eqref{eq:arp_def}. The AR(p) process can be rewritten as
+%
+\begin{equation}
+x_t=\phi\left(L\right)^{-1}\theta\left(L\right)\varepsilon_t=\psi\left(L\right)\varepsilon_t.
+\end{equation}
+%
+It follows immediately that  $\mathsf{E}\left(x_t\right)= 0$. Also, the autocovariance function of $x_t$ can be written as
+%
+\begin{align}
+\label{eq:acf_arq_def}
+\gamma\left(h\right)&=\mathsf{cov}\left(x_{t+h},x_{t}\right)=\mathsf{cov}\left(\sum_{j=0}^\infty\psi_j\varepsilon_{t+h-j},\sum_{k=0}^\infty\psi_k\varepsilon_{t-k}\right)\nonumber\\
+&=\sigma_\varepsilon^2\sum_{j=0}^{\infty}\psi_j\psi_{j+h}.
+\end{align}
+Unlike the MA(q), the ACF of an AR(p) or an ARMA(p,q) does not cut off at any lag, so using the ACF to help identify the order of an AR or ARMA is difficult. Also, \eqref{eq:acf_arq_def} is not appealing in that it provides little information about the appearance of the ACF of various models.
+\end{example}
+\clearpage
+
+\subsubsection{The partial autocorrelation function}
+
+In \eqref{eq:acf_maq}, we saw that for MA(q) models, the ACF will be zero for lags greater than $q$. Moreover, because $\theta_q\neq 0$, the ACF will not be zero at lag $q$. Thus, the ACF provides a considerable amount of information about the order of the dependence when the process is a moving average process.
+
+If the process, however, is ARMA or AR, the ACF alone tells us little about the orders of dependence. Hence, it is worthwhile pursuing a function that will behave like the ACF of MA models, but for AR models, namely, the partial autocorrelation function (PACF).
+
+Recall that if $X$, $Y$, and $Z$ are random variables, then the partial correlation between $X$ and $Y$ given $Z$ is obtained by regressing $X$ on $Z$ to obtain the predictor $X$, regressing $Y$ on $Z$ to obtain $Y$, and then calculating
+%
+\begin{equation}
+\rho_{X,Y\vert Z}=\mathsf{corr}\left(X-\widehat{X},Y-\widehat{Y}\right).
+\end{equation}
+\clearpage
+
+The idea is that $\rho_{X,Y\vert Z}$ measures the correlation between $X$ and $Y$ with the linear effect of $Z$ removed (or partialled out). If the variables are multivariate normal, then this definition coincides with $\rho_{X,Y\vert Z}=\mathsf{corr}\left(X,Y\mid Z\right)$.
+
+To motivate the idea of partial autocorrelation, consider a causal AR(1) model, $x_t=\phi x_{t-1}+\varepsilon_t$. Then
+%
+\begin{align}
+\gamma_{x}(2)&=\mathsf{cov}\left(\phi x_{t-1}+\varepsilon_t,x_{t-2}\right)\nonumber\\
+&=\mathsf{cov}\left(\phi^2 x_{t-2}+\phi\varepsilon_{t-1}+\varepsilon_t,x_{t-2}\right)\nonumber\\
+&=\phi^2\gamma_{x}(0).
+\end{align}
+%
+This result follows from causality because $x_{t-2}$ involves $\left\{\varepsilon_{t-2},\varepsilon_{t-2},\dots\right\}$, which are all uncorrelated with $\varepsilon_{t}$ and $\varepsilon_{t-1}$. 
+
+The correlation between $x_t$ and $x_{t-2}$ is not zero, as it would be for an MA(1), because $x_t$ is dependent on $x_{t-2}$ through $x_{t-1}$. 
+\clearpage
+
+Suppose we break this chain of dependence by removing (or partialling out) the effect of $x_{t-1}$. That is, we consider the correlation between $x_{t}-\phi x_{t-1}$ and $x_{t-2}-\phi x_{t-1}$, because it is the correlation between $x_t$ and $x_{t-2}$ with the linear dependence of each on $x_{t-1}$ removed. In this way, we have broken the dependence chain between $x_t$ and $x_{t-2}$. 
+
+In fact
+%
+\begin{align}
+\gamma_{x}(2)&=\mathsf{cov}\left(x_{t}-\phi x_{t-1},x_{t-1}-\phi x_{t-2}\right)\nonumber\\
+&=\mathsf{cov}\left(\varepsilon_t,x_{t-1}-\phi x_{t-2}\right)\nonumber\\
+&=0.\nonumber
+\end{align}
+%
+Hence, the tool we need is partial autocorrelation, which is the correlation
+between $x_s$ and $x_t$ with the linear effect of everything \qmo in the middle\qmcsp removed.
+
+\clearpage
+
+\begin{definition}
+The partial autocorrelation function (PACF) of a stationary
+process, $x_t$, denoted $\phi_{hh}$, for $h = 1,2,\dots$, is
+%
+\begin{align}
+\phi_{11}&=\mathsf{corr}\left(x_1,x_0\right)=\rho(1)\nonumber\\
+%
+\phi_{hh}&=\mathsf{corr}\left(x_1-\widehat{x}_h,x_0-\widehat{x}_0\right),\qquad h\geq 2,\nonumber
+\end{align}
+%
+where $\widehat{x}_h$ is the regression of $x_h$ on $\left\{x_1, x_2, . . . , x_{h-1}\right\}$ and $\widehat{x}_0$ is the regression of $x_h$ on $\left\{x_1, x_2, . . . , x_{h-1}\right\}$.
+\end{definition}
+
+Thus, due to the stationarity, the PACF, $\phi_{hh}$, is the correlation between $x_{t+h}$ and $x_t$ with the linear dependence of everything between them, namely $\left\{x_{t+1},x_{t+2},\dots,x_{t+h-1}\right\}$, on each, removed.
+\clearpage
+
+
+
+\subsection{Exercises}
+
+\subsubsection*{Exercise 1.}
+Let $x_t$ be the following AR(1) process
+%
+\begin{equation}
+x_t=\mu+\phi x_{t-1}+\varepsilon_{t},\qquad\varepsilon_t\sim\mathsf{N}\left(0,\sigma_\varepsilon^2\right),\nonumber
+\end{equation}
+then
+\begin{itemize}
+\item[(1.1)] calculate the mean function of $x_t$;
+\item[(1.2)] provide the conditions on $\left(\mu,\phi,\sigma_\varepsilon^2\right)$ for the weak stationarity of the process;
+\item[(1.3)] calculate the autocovariance function of $x_t$;
+\item[(1.4)] calculate the autocorrelation function of $x_t$.
+\end{itemize}
+
+\subsubsection*{Exercise 2.}
+Let $z_t$ be the following MA(1) process
+%
+\begin{equation}
+z_t=\mu+\theta \varepsilon_{t-1}+\varepsilon_{t},\qquad\varepsilon_t\sim\mathsf{N}\left(0,\sigma_\varepsilon^2\right),\nonumber
+\end{equation}
+then
+\begin{itemize}
+\item[(1.1)] calculate the mean function of $z_t$;
+\item[(1.2)] provide the conditions on $\left(\mu,\theta,\sigma_\varepsilon^2\right)$ for the weak stationarity of the process;
+\item[(1.3)] calculate the autocovariance function of $z_t$;
+\item[(1.4)] calculate the autocorrelation function of $z_t$.
+\end{itemize}
+
+
+\subsubsection*{Exercise 3.}
+Let $y_t$ be the following ARMA(1,1) process
+%
+\begin{equation}
+y_t=\mu+\phi y_{t-1}+\theta \varepsilon_{t-1}+\varepsilon_{t},\qquad\varepsilon_t\sim\mathsf{N}\left(0,\sigma_\varepsilon^2\right),\nonumber
+\end{equation}
+then
+\begin{itemize}
+\item[(1.1)] calculate the mean function of $y_t$;
+\item[(1.2)] provide the conditions on $\left(\mu,\phi,\theta,\sigma_\varepsilon^2\right)$ for the weak stationarity of the process;
+\item[(1.3)] provide the conditions on $\left(\mu,\phi,\theta,\sigma_\varepsilon^2\right)$ for the invertibility of the process;
+\item[(1.3)] calculate the autocovariance function of $y_t$;
+\item[(1.4)] calculate the autocorrelation function of $y_t$.
+\end{itemize}
+
+
+
+
+\subsection{Estimation}
+
+
+We assume we have $n$ observations, $x_1,\dots,x_n$, from a causal and invertible Gaussian ARMA(p,q) process in which, initially, the order parameters, $p$ and $q$, are known. 
+
+Our goal is to estimate the parameters, $\phi_1,\phi_2,\dots,\phi_p,\theta_1,\theta_2,\dots,\theta_q$, and $\sigma_\varepsilon^2$. We will discuss the problem of determining $p$ and $q$ later in this section.
+
+We begin with method of moments estimators. The idea behind these estimators is that of equating population moments, $\mathsf{E}\left(x_{t}^k\right)$, to sample moments,
+$\frac{1}{n}\sum_{t=1}^nx_r^k$, for $k=1,2,\dots$, and then solving for the parameters in terms of the sample moments. 
+
+We immediately see that, if $\mathsf{E}\left(x_t\right)=\mu$, then the method of moments estimator of $\mu$ is the sample average, $\bar{x}$. Thus, while discussing method of moments, we will assume $\mu=0$. 
+
+Although the method of moments can produce good estimators, they can sometimes lead to suboptimal estimators. We first consider the case in which the method leads to optimal (efficient) estimators, that is, AR(p) models.
+
+\clearpage
+
+
+
+
+\subsubsection{Yule--Walker}
+
+\begin{definition}[Yule--Walker equations]
+The Yule--Walker equations are given by
+%
+\begin{align}
+\rho(h)&=\phi_1\rho(h-1)+\phi_2\rho(h-2)+\dots+\phi_p\rho(h-p),\qquad h=1,2,\dots,p\nonumber\\
+%
+\sigma_\varepsilon^2&=\gamma(0)\left[1-\phi_1\rho(1)-\phi_2\rho(2)-\dots-\phi_p\rho(p)\right].\nonumber
+\end{align}
+%
+\end{definition}
+%
+In the case of AR(p) models, the Yule--Walker estimators are optimal estimators, but this is not true for MA(q) or ARMA(p,q) models. AR(p) models are linear models, and the Yule--Walker estimators are essentially least squares estimators. MA or ARMA models are nonlinear models, so this technique does not give optimal estimators.
+
+
+
+\clearpage
+
+
+
+\subsubsection{Method of moments}
+
+\begin{example}
+Consider the MA(1) model $x_t= \varepsilon_t+\theta\varepsilon_{t-1}$, where $\vert\theta\vert<1$. The model can be written as
+%
+\begin{equation}
+x_t=-\sum_{j=1}^\infty(-\theta)^jx_{t-j}+\varepsilon_t\nonumber,
+\end{equation}
+which is nonlinear in $\theta$. The first two population autocovariances are 
+\begin{align}
+\gamma(0)&=\sigma^2_\varepsilon\left(1+\theta^2\right)\nonumber\\
+\gamma(1)&=\sigma^2_\varepsilon\theta,\nonumber
+\end{align}
+so that the estimates of $\theta$ is found by solving the empirical counterpart of
+\begin{equation}
+\rho(1)=\frac{\theta}{1+\theta^2}.\nonumber
+\end{equation}
+Two solutions exist, so we would pick the invertible one.
+\end{example}
+\clearpage
+
+
+
+
+
+\subsubsection{Conditional least squares}
+
+
+The preferred method of estimation is maximum likelihood estimation (MLE), which determines the values of the parameters that are most likely to have produced the observations. 
+
+For normal models, this is the same as weighted least squares. 
+
+For ease, we first discuss conditional least squares.
+\clearpage
+
+
+Consider a simple AR(1) model, $x_t=\phi x_{t-1}+\varepsilon_t$. In this case, the error sum of squares is
+%
+\begin{equation}
+S\left(\phi\right)=\sum_{t=1}^n\left(x_t-\phi x_{t-1}\right)^2.
+\end{equation}
+%
+We have a problem because we do not observe $x_0$. Let us make life easier by forgetting the problem and dropping the first term. That is, let us perform least squares using the (conditional) sum of squares
+%
+\begin{equation}
+S_c\left(\phi\right)=\sum_{t=2}^n\left(x_t-\phi x_{t-1}\right)^2.
+\end{equation}
+%
+because that?s easy (it is just OLS) and if n is large, it should not matter much. We
+know from regression that the solution is
+%
+\begin{equation}
+\widehat{\phi}=\frac{\sum_{t=2}^n x_tx_{t-1}}{\sum_{t=2}^n x_t^2},
+\end{equation}
+%
+which is nearly the Yule--Walker estimate.
+\clearpage
+
+
+
+
+Now we focus on conditional least squares for ARMA(p,q) models via
+Gauss--Newton. Write the model parameters as $\beta=\left(\phi_1,\dots,\phi_p,\theta_1,\dots,\theta_q\right)$, and for the ease of discussion, we will put $\mu=0$. Write the ARMA model in terms of the errors
+%
+\begin{equation}
+\label{eq:arma_wei_mle}
+w_t\left(\beta\right)=x_t-\sum_{j=1}^p\phi_jx_{t-j}-\sum_{j=1}^q\theta_kw_{t-k}\left(\beta\right),
+\end{equation}
+%
+emphasizing the dependence of the errors on the parameters (recall that $\varepsilon_t=\sum_{j=0}^\infty\pi_j x_{t-j}$ by invertibilty, and the $\pi_j$ are complicated functions of $\beta$). 
+
+Again we have the problem that we do not observe the $x_t$ for $t\leq 0$, nor the
+errors $w_t$. 
+
+For conditional least squares, we condition on $x_1,x_2,\dots,x_p$, (if $p > 0$) and we set $w_{p-1}=w_{p-2}=\dots=w_{p+1-q}=0$ (if $q>0$), in which case, given $\beta$, we may evaluate equation \eqref{eq:arma_wei_mle} for $t=p+1,p+2,\dots,n$. 
+\clearpage
+
+Using this conditioning argument, the conditional error sum of squares is
+%
+\begin{equation}
+\label{eq:arma_wei_mle2}
+S_c\left(\beta\right)=\sum_{t=p+1}^n\left[w_t\left(\beta\right)\right]^2.
+\end{equation}
+%
+Minimizing $S_c\left(\beta\right)$ with respect to $\beta$ yields the conditional least squares estimates. 
+
+We could use a brute force method where we evaluate $S_c\left(\beta\right)$ over a grid of possible values for the parameters and choose the values with the smallest error sum of squares, but this method becomes prohibitive if there are many parameters.
+
+If $q=0$, the problem is linear regression as we saw in the case of the AR(1). 
+
+If $q > 0$, the problem becomes nonlinear regression and we will rely on numerical optimization. 
+
+Gauss--Newton uses an iterative method for solving the problem of minimizing \eqref{eq:arma_wei_mle}. 
+\clearpage
+
+
+
+
+
+\subsubsection{Unconditional least squares}
+
+Estimation of the parameters in an ARMA model is more like weighted least squares than ordinary least squares. Consider the normal regression model $x_t=\beta_0+\beta_1 z_t+\varepsilon_t$, where now, the errors have possibly different variances, $\varepsilon_t\sim\mathsf{N}(0,\sigma^2h_t)$.
+
+In this case, we use weighted least squares to minimize
+%
+\begin{equation}
+S\left(\phi\right)=\sum_{t=1}^n\frac{\left(x_t-\beta_0 + \beta_1 z_{t}\right)^2}{h_t},\nonumber
+\end{equation}
+%
+with respect to the $\beta$'s. This problem is more difficult because the weights, $h_t^{-1}$, are rarely known (the case $h_t=1$ is ordinary least squares). 
+
+For ARMA models, however, we do know the structure of these variances.
+\clearpage
+
+
+
+
+For ease, we will concentrate on the AR(1) model,
+%
+\begin{equation}
+\label{eq:ex_ar1_mle}
+x_t=\mu+\phi\left(x_{t-1}-\mu\right)+\varepsilon_t
+\end{equation}
+%
+where $\vert\phi\vert<1$ and $\varepsilon_t\sim\mathsf{N}(0,\sigma^2)$.
+
+Given data $x_1,x_2,\dots,x_n$, the model in equation \eqref{eq:ex_ar1_mle} does not include a regression for the first observation because $x_0$ is not observed. However, we know that
+%
+\begin{equation}
+\label{eq:ex_ar1_mle}
+x_1\sim\mathsf{N}\left(\mu,\frac{\sigma^2_\varepsilon}{1-\phi^2}\right).
+\end{equation}
+%
+In this case, we have $h_1=\frac{1}{1?\phi^2}$ and $h_t01$ for $t\geq 2$. Thus, the unconditional sum of squares is now
+%
+\begin{equation}
+S\left(\mu,\phi\right)=\left(1-\phi^2\right)\left(x_1-\mu\right)^2+\sum_{t=2}^n\left(x_t-(1-\phi)\mu-\phi x_{t-1}\right)^2.
+\end{equation}
+%
+\clearpage
+
+
+In conditional least squares, we conditioned away the nasty part involving $x_1$ to make the problem easier. For unconditional least squares, we need to use numerical optimization even for the simple AR(1) case.
+
+This problem generalizes in an obvious way to AR(p) models and in a not so obvious way to ARMA models in general. For us, unconditional least squares is equivalent to maximum likelihood estimation (MLE). 
+
+MLE involves finding the \qmo most likely\qmcsp parameters given the data. In the general case of causal and invertible ARMA(p,q) models, maximum likelihood estimation, least squares estimation (conditional and unconditional), and Yule--Walker estimation in the case of AR models, all lead to optimal estimators for large sample sizes.
+\clearpage
+
+
+\subsection{Regression with autocorrelated errors}
+In this section, we discuss the classical regression model when the errors $\varepsilon_t$ are correlated. That is, consider the regression model
+%
+\begin{equation}
+y_t=\beta_0+\sum_{j=1}^r\beta_jz_{j,t}+x_t,
+\end{equation}
+%
+where $x_t$ is a process with some covariance function $\gamma_x(s,t)$. 
+
+In ordinary least squares, the assumption is that $x_t$ is white Gaussian noise, in which case $\gamma_x(s,t)=0$ for $s\neq t$ and $\gamma_x(t,t)=\sigma_\varepsilon^2$, independent of $t$. 
+
+If this is not the case, then weighted least squares should be used.
+
+In the time series case, it is often possible to assume a stationary covariance structure for the error process $x_t$ that corresponds to a linear process and try to find an ARMA representation for $x_t$. 
+\clearpage
+
+For example, if we have a pure AR(p) error, then $\phi(L)x_t=\varepsilon_t$, and $\phi(L)=1-\phi_1L-\phi_2L^2-\dots-\phi_pL^p$ is the linear transformation that, when applied to the error process, produces the white noise $\varepsilon_t$. 
+
+Multiplying the regression equation through by the transformation $\phi(L)x_t$ yields,
+%
+\begin{equation}
+\phi(L)y_t=\phi(L)\beta_0+\sum_{j=1}^r\beta_j\phi(L)z_{j,t}+\phi(L)x_t,
+\end{equation}
+%
+and we are back to the linear regression model where the observations have been transformed so that $y_t^\star=\phi(L)y_t$, $z_{j,t}^\star=\phi(L)z_{j,t}$ for $j=1,2,\dots,r$ are the independent variables but the $\beta$'s are the same as in the original model, and $\phi(L)x_t=\varepsilon_t$ with
+$\beta^\star_0=\left(1-\phi_1-\dots-\phi_p\right)\beta_0$
+%
+\begin{equation}
+y^\star_t=\beta^\star_0+\sum_{j=1}^r\beta_jz^\star_{j,t}+\varepsilon_t.
+\end{equation}
+%
+\clearpage
+
+
+
+In the AR case, we may set up the least squares problem as minimizing the
+error sum of squares
+%
+\begin{equation}
+S\left(\mu,\beta\right)=\sum_{t=1}^n\left(\phi(L)y_t-\phi(L)\beta_0-\sum_{j=1}^r\beta_j\phi(L)z_{j,t}\right)^2,\nonumber
+\end{equation}
+%
+with respect to all the parameters, $\phi=\left(\phi_1,\dots,\phi_p\right)$ and $\beta=\left(\beta_1,\dots,\beta_p\right)$. Of course, this is done using numerical methods.
+
+If the error process is ARMA(p,q), i.e., $\phi(L)x_t=\theta(L)\varepsilon_t$, then in the above discussion, we transform by $\pi(L)x_t=\varepsilon_t$, where, $\pi(L)=\theta(L)^{-1}\phi(L)$. 
+
+In this case the error sum of squares also depends on $\theta=\left(\theta_1,\dots,\theta_q\right)$
+%
+\begin{equation}
+S\left(\mu,\beta\right)=\sum_{t=1}^n\left(\pi(L)y_t-\pi(L)\beta_0-\sum_{j=1}^r\beta_j\pi(L)z_{j,t}\right)^2.\nonumber
+\end{equation}
+%
+\clearpage
+
+At this point, the main problem is that we do not typically know the behavior of the noise $x_t$ prior to the analysis. An easy way to tackle this problem was first presented in Cochrane and Orcutt (1949), and with the advent of cheap computing is modernized below:
+%
+\begin{itemize}
+\item[(i)] First, run an ordinary regression of $y_t$ on $\left(z_{1,t},z_{2,t},\dots,z_{r,t}\right)$ (acting as if the errors are uncorrelated). Retain the residuals, $\widehat{x}_t=y_t-\widehat{\beta}_0-\sum_{j=1}^r\widehat{\beta}_jz_{j,t}$;
+%
+\item[(ii)] identify ARMA model(s) for the residuals $\widehat{x}_t$;
+%
+\item[(iii)] run weighted least squares (or MLE) on the regression model with
+autocorrelated errors using the model specified in step (ii).
+%
+\item[(iv)] Inspect the residuals $\widehat{\varepsilon}_t$ for whiteness, and adjust the model if necessary.
+\end{itemize}
+\clearpage
+
+
+
+
+\subsection{Integrated models}
+
+In previous chapters, we saw that if $x_t$ is a random walk, $x_t=x{t_1}+\varepsilon_t$, then by differencing $x_t$, we find that $\Delta x_t=\varepsilon_t$ is stationary. 
+
+In many situations, time series can be thought of as being composed of two components, a nonstationary trend component and a zero--mean stationary component. 
+
+For example, consider the model
+%
+\begin{equation}
+x_t=\mu_t+y_t,\nonumber
+\end{equation}
+%
+where $\mu_t=\beta_0+\beta_1 t$ and $y_t$ is stationary. Differencing such a process will lead to a stationary process:
+%
+\begin{equation}
+\label{eq:examp_trend_det}
+\Delta x_t=\Delta \mu_t+\Delta y_t=\beta_1+\Delta y_t.
+\end{equation}
+%
+\clearpage
+
+Another model that leads to first differencing is the case in which $\mu_t$ in equation \eqref{eq:examp_trend_det} is stochastic and slowly varying according to a random walk. 
+
+That is $\mu_t=\mu_{t-1}+\nu_t$ where $\mu_t$ is stationary. In this case,
+%
+\begin{equation}
+\Delta x_t=\Delta \mu_t+\Delta y_t=\nu_t+\Delta y_t,
+\end{equation}
+%
+is stationary. 
+
+If $\mu_t$ in equation \eqref{eq:examp_trend_det} is quadratic, $\mu_t=\beta_0+\beta_1t+\beta_2t^2$, then the differenced series $\Delta^2x_t$  is stationary. 
+
+Stochastic trend models can also lead to higher order differencing. 
+
+The integrated ARMA, or ARIMA, model is a broadening of the class of ARMA models to include differencing. 
+
+The basic idea is that if differencing the data at some order d produces an ARMA process, then the original process is said to be ARIMA.
+\clearpage
+
+\begin{definition}
+
+A process $x_t$ is said to be ARIMA(p,d,q) if $\Delta^d x_t =(1-L)^dx_t$
+is ARMA(p,q). In general, we will write the model as $\phi(B)(1-L)^dx_t=\theta(L)\varepsilon_t$.
+If $\mathsf{E}(\Delta^dx_t)=\mu$, we write the model as
+%
+\begin{equation}
+\phi(B)(1-L)^dx_t =\delta+\theta(L)\varepsilon_t,\nonumber
+\end{equation}
+where $\delta=\mu\left(1-\phi_1-\dots-\phi_p\right)$.
+\end{definition}
+\clearpage
+
+
+
+\subsection{Seasonal processes}
+
+We now introduce several modifications made to the ARIMA model to account for seasonal and nonstationary behavior. 
+
+Often, the dependence on the past tends to occur most strongly at multiples of some underlying seasonal lag $s$. 
+
+For example, with monthly economic data, there is a strong yearly component occurring at lags that are multiples of $s = 12$, because of the strong connections of all activity to the calendar year. 
+
+Data taken quarterly will exhibit the yearly repetitive period at $s = 4$ quarters. 
+
+Natural phenomena such as temperature also have strong components corresponding to seasons. 
+\clearpage
+
+Hence, the natural variability of many physical, biological, and economic processes tends to match with seasonal fluctuations. Because of this, it is appropriate to introduce autoregressive and moving average polynomials that identify with the seasonal lags. The resulting pure seasonal autoregressive moving average model, say, ARMA(P,Q)$_s$, then takes the form
+%
+\begin{equation}
+\Phi_P(L^s)x_t=\Theta_Q(L^s)\varepsilon_t,\nonumber
+\end{equation}
+%
+where the operators
+%
+\begin{equation}
+\Phi_P(L^s)=1-\phi_1L^s-\phi_2L^{2s}-\dots-\phi_PL^{2P},\nonumber
+\end{equation}
+%
+and
+%
+\begin{equation}
+\Theta_Q(L^s)=1-\theta_1L^s-\theta_2L^{2s}-\dots-\theta_QL^{2P},\nonumber
+\end{equation}
+%
+are the seasonal autoregressive operator and the seasonal moving average operator of orders $P$ and $Q$, respectively, with seasonal period $s$.
+
+Analogous to the properties of nonseasonal ARMA models, the pure seasonal ARMA(P,Q)$_s$ is causal only when the roots of $\Phi_P(z^s)$ lie outside the unit circle, and it is invertible only when the roots of $\Theta_Q(z^s)$ lie outside the unit circle.
+\clearpage
+
+
+In general, we can combine the seasonal and nonseasonal operators into a multiplicative seasonal autoregressive moving average model, denoted by ARMA(p,q)$\times$(P,Q)$_s$, and write
+%
+\begin{equation}
+\Phi_P(L^s)\phi(L)x_t=\Theta_Q(L^s)\theta(L)\varepsilon_t,\nonumber
+\end{equation}
+%
+as the overall model. 
+
+Seasonal persistence occurs when the process is nearly periodic in the season. For example, with average monthly temperatures over the years, each January would be approximately the same, each February would be approximately the same, and so on. In this case, we might think of average monthly temperature $x_t$ as being modeled as
+%
+\begin{equation}
+x_t=S_t+\varepsilon_t,\nonumber
+\end{equation}
+%
+where $S_t$ is a seasonal component that varies a little from one year to the next, according to a random walk,
+%
+\begin{equation}
+S_t=S_{t-12}+v_t,\nonumber
+\end{equation}
+%
+In this model, $\varepsilon_t$ and $v_t$ are uncorrelated white noise processes.
+\clearpage
+
+
+
+\begin{definition}
+The multiplicative seasonal autoregressive integrated moving average model, or SARIMA model is given by
+%
+\begin{equation}
+\Phi_P(L^s)\phi(L)\Delta_s^D\Delta^dx_t=\Theta_Q(L^s)\theta(L)\varepsilon_t,\nonumber
+\end{equation}
+%
+where $\varepsilon_t$ is the usual Gaussian white noise process. The general model is denoted as ARIMA(p,d,q)$\times$(P,D,Q)$_s$. The ordinary autoregressive and moving average components are represented by polynomials $\phi(L)$ and $\theta(L)$ of orders $p$ and $q$, respectively, and the seasonal autoregressive and moving average components by $\Phi_P(L^s)$ and $\Theta_Q(L^s)$ of orders $P$ and $Q$ and ordinary and seasonal difference components by $\Delta^d=(1-L)^d$ and $\Delta_s^D=(1-L^s)^D$.
+\end{definition}
+\clearpage
+
+\subsection{Forecasting}
+
+In forecasting, the goal is to predict future values of a time series, $x_{n+m}$,
+$m=1,2,\dots$ based on the data, $x_1,x_2,\dots,x_n$, collected to the present. 
+
+Throughout this section, we will assume that the model parameters are known. When the parameters are unknown, we replace them with their estimates.
+
+To understand how to forecast an ARMA process, it is instructive to investigate forecasting an AR(1), $x_t=\phi x_{t-1}+\varepsilon_t$.
+
+First, consider one--step--ahead prediction, that is, given data $x_1,x_2,\dots,x_n$, we wish to forecast the value of the time series at the next time point, $x_{n+1}$. We will call the forecast $x^n_{n+1}$. 
+
+In general, the notation $x^n_t$ refers to what we can expect $x_t$ to be given the data $x_1,x_2,\dots,x_n$. 
+\clearpage
+
+
+Since $x_{n+1}=\phi x_{n}+\varepsilon_{n+1}$, we should have
+%
+\begin{equation}
+x_{n+1}^n=\phi x^n_{n}+\varepsilon^n_{n+1}.
+\end{equation}
+%
+But since we know $x_n$ (it is one of our observations), $x_n^n = x_n$, and since $\varepsilon_{n+1}$ is a future error and independent of $x_1,x_2,\dots,x_n$, we have $w^n_{n+1} = \mathsf{E}(w_{n+1}) = 0$. Consequently, the one--step--ahead forecast is
+%
+\begin{equation}
+x_{n+1}^n=\phi x_n.
+\end{equation}
+%
+The one--step--ahead mean squared prediction error (MSPE) is given by 
+%
+\begin{equation}
+P_{t+1}^n=\mathsf{E}\left(x_{n+1}-x_{n+1}^n\right)^2=\mathsf{E}\left(\varepsilon^2_{n+1}\right)=\sigma^2_\varepsilon.
+\end{equation}
+%
+\clearpage
+
+The $h$--step--ahead forecast is obtained similarly, $x_{n+h}^n=\phi^h x_{n}$. For $h=2$ we have $x_{n+2}^n=\phi^2 x_{n}$ and the two--step--ahead mean squared prediction error (MSPE) is given by
+%
+\begin{align}
+P_{t+1}^n&=\mathsf{E}\left(x_{n+2}-x_{n+2}^n\right)^2\nonumber\\
+&=\mathsf{E}\left(\phi x_{n+1}+\varepsilon_{n+2}-x_{n+2}^n\right)\nonumber\\
+&=\mathsf{E}\left(\phi x_{n+1}+\varepsilon_{n+2}-\phi^2x_n\right)\nonumber\\
+&=\mathsf{E}\left(\varepsilon_{n+2}+\phi \varepsilon_{n+1}\right)\nonumber\\
+&=\sigma_\varepsilon^2\left(1+\phi^2\right).\nonumber
+\end{align}
+%
+Forecasting an AR(p) model is basically the same as forecasting an AR(1) provided the sample size $n$ is larger than the order $p$, which it is most of the time.
+\clearpage
+
+\section{Building ARIMA Models}
+
+
+There are a few basic steps to fitting ARIMA models to time series data. These steps involve
+\begin{itemize}
+\item plotting the data
+\item possibly transforming the data
+\item identifying the dependence orders of the model
+\item parameter estimation
+\item diagnostics
+\item model choice.
+\end{itemize}
+
+First, as with any data analysis, we should construct a time plot of the data, and inspect the graph for any anomalies. 
+
+If, for example, the variability in the data grows with time, it will be necessary to transform the data to stabilize the variance. In such cases, the Box--Cox class of power transformations, could be employed. 
+  
+Also, the particular application might suggest an appropriate transformation. For example, we have seen numerous examples where the data behave as $x_t = (1 + p_t)x_{t-1}$, where $p_t$ is a small percentage change from period $t -1$ to $t$, which may be negative. 
+
+If $p_t$ is a relatively stable process, then $\Delta\log(p_t)\approx p_t$ will be relatively stable. Frequently, $\Delta\log(p_t)\approx p_t$ is called the return or growth rate. 
+\clearpage
+
+After suitably transforming the data, the next step is to identify preliminary values of the autoregressive order, $p$, the order of differencing, $d$, and the moving average order, $q$. 
+
+A time plot of the data will typically suggest whether any differencing is needed. If differencing is called for, then difference the data once, $d = 1$, and inspect the time plot of $\Delta x_t$. If additional differencing is necessary, then try differencing again and inspect a time plot of $\Delta^2 x_t$; it is rare for $d$ to be bigger than $1$. 
+
+Be careful not to overdifference because this may introduce dependence where none exists. For example, $x_t=\varepsilon_t$ is serially uncorrelated, but $\Delta x_t=\varepsilon_t-\varepsilon_{t-1}$ is MA(1). 
+
+In addition to time plots, the sample ACF can help in indicating whether differencing is needed. Because the polynomial
+$\phi(z)(1-z)^d$ has a unit root, the sample ACF, $\widehat{\rho}(h)$, will not decay to zero fast as $h$ increases. 
+
+Thus, a slow decay in $\widehat{\rho}(h)$ is an indication that differencing may be needed.
+\clearpage
+
+When preliminary values of $d$ have been settled, the next step is to look at the sample ACF and PACF of $\Delta^d x_t$ for whatever values of $d$ have been chosen. 
+
+Preliminary values of p and q are chosen. Note that it cannot be the case that both the ACF and PACF cut off. Because we are dealing with estimates, it will not always be clear whether the sample ACF or PACF is tailing off or cutting off. 
+
+Also, two models that are seemingly different can actually be very similar. With this in mind, we should not worry about being so precise at this stage of the model fitting. At this point, a few preliminary values of $p$, $d$, and $q$ should be at hand, and we can start estimating the parameters.
+\clearpage
+
+\subsection{Analysis of US GNP data}
+
+In this example, we consider the analysis of quarterly U.S. GNP from 1947(1) to 2018(2), n = 286 observations. The data are real U.S. gross national product in billions of chained 1996 dollars and have been seasonally adjusted. The data were obtained from the Federal Reserve Bank of St. Louis 
+(\texttt{http://research.stlouisfed.org/}). 
+
+Get the data:
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+install.packages("fImport")
+library("fImport")
+g=fredSeries("GNP",from="1947-01-04")
+gnp=ts(g, freq=4, start=c(1947,1))
+tsplot(gnp)
+\end{lstlisting}
+\clearpage
+
+We first shows a plot of the data, say, $y_t$. Because strong trend tends to obscure other effects, it is difficult to see any other variability in data except for periodic large dips in the economy. 
+
+When reports of GNP and similar economic indicators are given, it is often in growth rate (percent change) rather than in actual (or adjusted) values that is of interest. The growth rate, say, $x_t = \Delta\log(y_t)$, is plotted and it appears to be a stable process.
+
+Evaluate growth rate and plot ACF/PACF:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+acf2(gnp, 50)
+gnpgr = diff(log(gnp))
+tsplot(gnpgr)
+acf2(gnpgr, 24)
+\end{lstlisting}
+\clearpage
+
+The sample ACF and PACF of the quarterly growth rate are plotted. 
+
+Inspecting the sample ACF and PACF, we might feel that the ACF is cutting off at lag 2 and the PACF is tailing off. This would suggest the GNP growth rate follows an MA(2) process, or log GNP follows an ARIMA(0, 1, 2) model. 
+
+Rather than focus on one model, we will also suggest that it appears that 
+the ACF is tailing off and the PACF is cutting off at lag 1. This suggests an AR(1) model for the growth rate, or ARIMA(1,1,0) for log GNP. 
+
+As a preliminary analysis, we will fit both models.
+\clearpage
+
+The analysis can be performed in R as follows; partial output is shown.
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima(gnpgr, 1, 0, 0)
+$ttable
+        Estimate   SE t.value p.value
+ar1     0.4888 0.0515  9.4840       0
+xmean   0.0156 0.0011 14.0464       0
+
+sarima(gnpgr, 0, 0, 2) # MA(2) 
+$ttable
+        Estimate     SE t.value p.value
+ma1     0.3871 0.0605  6.4015       0
+ma2     0.3044 0.0478  6.3715       0
+xmean   0.0156 0.0010 16.3720       0
+round( ARMAtoMA(ar=.488, ma=0, 15), 3) # prints psi-weights
+[1] 0.488 0.238 0.116 0.057 0.028 0.014 0.007 0.003 0.002 0.001 0.000 0.000
+\end{lstlisting}
+\clearpage
+
+Use MLE to fit the MA(2) model for the growth rate, $x_t$. The R code to estimate model is reported 
+above.
+
+All of the regression coefficients are significant, including the constant. 
+
+We make a special note of this because, as a default, some computer packages --- including the R stats package --- do not fit a constant in a differenced model. That is, these packages assume, by default, that there is no drift. 
+
+In this example, not including a constant leads to the wrong conclusions about the nature of the U.S. economy. Not including a constant assumes the average quarterly growth rate is zero, whereas the U.S. GNP average quarterly growth rate is about 1\%. 
+
+We leave it to the reader to investigate what happens when the constant is not included.
+\clearpage
+
+Use MLE to fit the AR(1) model for the growth rate, $x_t$.
+
+We will discuss diagnostics next, but assuming both of these models fit well, how are we to reconcile the apparent differences of the estimated models MA(2) and AR(1)?
+
+In fact, the fitted models are nearly the same. To show this, consider an AR(1) model of the form and write it in its causal form. Thus, $\psi_0=1$, $\psi_1=0.488$, $\psi_2= 0.238$, and so forth. Thus,
+$x_t\approx 0.488\varepsilon_{t-1} + 0.238\varepsilon_{t-2} + \varepsilon_t$, which is similar to the fitted MA(2) model.
+\clearpage
+
+
+The next step in model fitting is diagnostics. This investigation includes the analysis of the residuals as well as model comparisons. Again, the first step involves a time plot of the innovations (or residuals) $x_t-x_{t}^{t-1}$, or of the standardized innovations
+%
+\begin{equation}
+\widehat{e}_t=\frac{x_t-x_{t}^{t-1}}{\sqrt{P_t^{t-1}}},\nonumber
+\end{equation}
+%
+where $x_{t}^{t-1}$ is the one--step--ahead prediction of $x_t$ based on the fitted model and $P_t^{t-1}$ is the estimated one-step-ahead error variance.
+
+If the model fits well, the standardized residuals should behave as an iid sequence with mean zero and variance one. The time plot should be inspected for any obvious departures from this assumption.
+
+Investigation of marginal normality can be accomplished visually by looking at a histogram of the residuals. 
+\clearpage
+
+In addition to this, a normal Q--Q plot can help in identifying departures from normality.
+
+We could also inspect the sample autocorrelations of the residuals, say, $\widehat{\rho}_e(h)$, for any patterns or large values. In addition to plotting $\widehat{\rho}_e(h)$, we can perform a general test of whiteness that takes into consideration the magnitudes of $\widehat{\rho}_e(h)$ as a group. The Ljung--Box--Pierce Q--statistic given by
+%
+\begin{equation}
+\label{eq:Q_statistics_LB}
+Q=n(n+2)\sum_{h=1}^H\frac{\widehat{\rho}^2_e(h)}{n-h},
+\end{equation}
+%
+can be used to perform such a test. The value $H$ in equation \eqref{eq:Q_statistics_LB} is chosen somewhat arbitrarily, typically, $H = 20$. 
+
+Under the null hypothesis of model adequacy, asymptotically ($n\to\infty$), $Q\sim\chi^2_{H-p-q}$. 
+
+Thus, we would reject the null hypothesis at level ? if the value of $Q$ exceeds the $(1 ? \alpha)$--quantile of the $\chi^2_{H-p-q}$ distribution. Details can be found in Box and Pierce (1970), Ljung and Box (1978), and Davies et al. (1977). 
+\clearpage
+
+The basic idea is that if $\varepsilon_t$ is white noise, then $n\widehat{\rho}^2_\varepsilon(h)$, for $h = 1,2,\dots,H$, are asymptotically independent $\chi^2(1)$ random variables. This means that $n\sum_{h=1}^H\widehat{\rho}^2_\varepsilon(h)$ is approximately a $\chi_H^2$ random variable. 
+ 
+Because the test involves the ACF of residuals from a model fit, there is a loss of $p + q$ degrees of freedom; the other values in equation \eqref{eq:Q_statistics_LB} are used to adjust the statistic to better match the asymptotic chi-squared distribution
+\clearpage
+
+We will focus on the MA(2) fit; the analysis of the AR(1) residuals is similar. 
+
+The standard diagnostics test of the R command (\texttt{sarima}) displays a plot of the standardized residuals, the ACF of the residuals, a boxplot of the standardized residuals, and the p--values associated with the Q--statistic, at lags $H = 3$ through $H = 20$ (with corresponding degrees of freedom $H-2$).
+
+Inspection of the time plot of the standardized residuals shows no obvious patterns. Notice that there may be outliers, however, with a few values exceeding 3 standard deviations in magnitude. 
+
+The ACF of the standardized residuals shows no apparent departure from the model assumptions, and the Q--statistic is never significant at the lags shown. 
+
+The normal Q--Q plot of the residuals suggests that the assumption of normality is appropriate. The diagnostics are a by--product of the \texttt{sarima} command from the previous example.
+\clearpage
+
+
+The final step of model fitting is model choice or model selection. That is, we must decide which model we will retain for forecasting. The most popular techniques, AIC, AICc, and BIC.
+
+Recall that two models, an AR(1) and an MA(2), fit the GNP growth rate well. To choose the final model, we compare the AIC, the AICc, and the BIC for both models. These values are a byproduct of the sarima runs, but for convenience, we display them again here (recall the growth rate data are in gnpgr):
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima(gnpgr, 1, 0, 0) # AR(1)
+$AIC: -8.294403 $AICc: -8.284898 $BIC: -9.263748
+sarima(gnpgr, 0, 0, 2) # MA(2)
+$AIC: -8.297693 $AICc: -8.287854 $BIC: -9.251711
+\end{lstlisting}
+%
+The AIC and AICc both prefer the MA(2) fit, whereas the BIC prefers the simpler AR(1) model. It is often the case that the BIC will select a model of smaller order than the AIC or AICc. In this case, it is reasonable to retain the AR(1) because pure autoregressive models are easier to work.
+\clearpage
+
+
+
+
+\subsection{Analysis of paleoclimatic glacial varve series}
+
+Melting glaciers deposit yearly layers of sand and silt during the spring melting seasons, which can be reconstructed yearly over a period ranging from the time deglaciation began in New England (about $12,600$ years ago) to the time it ended (about $6,000$ years ago). 
+
+Such sedimentary deposits, called varves, can be used as proxies for paleoclimatic parameters, such as temperature, because, in a warm year, more sand and silt are deposited from the receding glacier. 
+
+The following R code produces the time series plot of varve:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow=c(2,1))
+tsplot(varve, main="varve", ylab="")
+tsplot(log(varve), main="log(varve)", ylab="" )
+\end{lstlisting}
+%
+The figure shows the thicknesses of the yearly varves collected from one location in Massachusetts for $634$ years, beginning $11,834$ years ago. For further information, see Shumway and Verosub (1992). 
+\clearpage
+
+Because the variation in thicknesses increases in proportion to the amount deposited, a logarithmic transformation could remove the nonstationarity observable in the variance as a function of time. 
+
+The figure shows the original and transformed varves, and it is clear that this improvement has occurred. We may also plot the histogram of the original and transformed data, to argue that the approximation to normality is improved. 
+
+The ordinary first differences are also computed and we note that the first differences have a significant negative correlation at lag $h = 1$. 
+\clearpage
+
+Next, we consider another preliminary data processing technique that is used for the purpose of visualizing the relations between series at different lags, namely, scatterplot matrices. 
+
+In the definition of the ACF, we are essentially interested in relations between $x_t$ and $x_{t-h}$; the autocorrelation function tells us whether a substantial linear relation exists between the series and its own lagged values. 
+
+The ACF gives a profile of the linear correlation at all possible lags and shows which values of $h$ lead to the best predictability. The restriction of this idea to linear predictability, however, may mask a possible nonlinear relation between current values, $x_t$, and past values, $x_{t-h}$. This idea extends to two series where one may be interested in examining scatterplots of $y_t$ versus $x_{t-h}$.
+
+The following R code produces the plot:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+lag1.plot(log(varve), 12)
+\end{lstlisting}
+%
+\clearpage
+
+We fit an ARIMA(0,1,1) model to the logarithms of the glacial varve data and there appears to be a small amount of autocorrelation left in the residuals and the Q--tests are all significant.
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+x = diff(log(varve))
+r = acf(x, lag=1, plot=FALSE)$acf[-1] 
+c(0) -> w -> z
+c() -> Sc -> Sz -> Szw -> SS -> para num = length(x)
+\end{lstlisting}
+%
+\clearpage
+
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+## Estimation
+para[1] = (1-sqrt(1-4*(r^2)))/(2*r) 
+niter = 12
+for (p in 1:niter){
+# data
+# acf(1)
+# initialize
+# MME
+for  (i in 2:num){ w[i] = x[i]  - para[p]*w[i-1]
+                   z[i] = w[i-1]- para[p]*z[i-1] }
+  Sc[p]
+  Sz[p]
+  Szw[p]
+  para[p+1] = para[p] + Szw[p]/Sz[p]  }
+\end{lstlisting}
+%
+\clearpage
+
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+## Results
+round(cbind(iteration=0:(niter-1), thetahat=para[1:niter], Sc, Sz), 3) ## Plot cond SS
+th = seq(-.3,-.94,-.01)
+for (p in 1:length(th)) {
+  for (i in 2:num) { 
+  	w[i] = x[i]-th[p]*w[i-1] 
+  }
+  SS[p] = sum(w^2)     
+}
+plot(th, SS, type="l", ylab=expression(S[c](theta)),
+xlab=expression(theta))
+abline(v=para[1:12], lty=2) # add results to plot points(para[1:12], Sc[1:12], pch=16)
+\end{lstlisting}
+\clearpage
+
+To adjust for this problem, we fit an ARIMA(1,1,1) to the logged varve data and obtained the estimates.
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima(log(varve), 1, 1, 1) # ARIMA(1,1,1)
+\end{lstlisting}
+%
+Hence the AR term is significant. From the Q--statistic p--values for this model it appears this model fits the data well. As previously stated, the diagnostics are byproducts of the individual sarima runs. 
+
+We note that we did not fit a constant in either model because there is no apparent drift in the differenced, logged varve series. This fact can be verified by noting the constant is not significant when the command no.constant=TRUE is removed in the code:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima(log(varve), 0, 1, 1, no.constant=TRUE) # ARIMA(0,1,1) 
+sarima(log(varve), 1, 1, 1, no.constant=TRUE) # ARIMA(1,1,1)
+\end{lstlisting}
+\clearpage
+
+
+\subsection{Analysis of air passengers series}
+
+We consider the R data set AirPassengers, which are the monthly totals of international airline passengers, 1949 to 1960, taken from Box \& Jenkins (1970). Various plots of the data and transformed data are obtained as follows:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+x = AirPassengers
+lx = log(x)
+dlx = diff(lx)
+ddlx = diff(dlx, 12) 
+plot.ts(cbind(x,lx,dlx,ddlx), yax.flip=TRUE, main="")
+# below of interest for showing seasonal persistence (not shown here): 
+par(mfrow=c(2,1))
+monthplot(dlx); 
+monthplot(ddlx)
+\end{lstlisting}
+\clearpage
+
+Note that $x$ is the original series, which shows trend plus increasing variance. The logged data are in $lx$, and the transformation stabilizes the variance. 
+
+The logged data are then differenced to remove trend, and are stored in $dlx$. It is clear the there is still persistence in the seasons (i.e., $dlx_t\approx dlx_{t-12}$), so that a twelfth--order difference is applied and stored in $ddlx$. 
+
+The transformed data appears to be stationary and we are now ready to fit a model. The R code for the sample ACF and PACF of $ddlx$ ($\Delta_{12}\Delta\log x_t$) is:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+acf2(ddlx, 50)
+\end{lstlisting}
+\clearpage
+
+\textbf{Seasonal}: It appears that at the seasons, the ACF is cutting off a lag $1$s
+($s = 12$), whereas the PACF is tailing off at lags 1s, 2s, 3s, 4s,\ldots These results implies an SMA(1), $P = 0$, $Q = 1$, in the season ($s = 12$). 
+
+\textbf{Non--Seasonal}: Inspecting the sample ACF and PACF at the lower lags, it appears as though both are tailing off. This suggests an ARMA(1,1) within the seasons, $p = q = 1$.
+
+Thus, we first try an ARIMA(1,1,1) $\times$ (0,1,1)$_{12}$ on the logged data:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima(lx, 1,1,1, 0,1,1,12)
+\end{lstlisting}
+%
+\clearpage
+
+
+However, the AR parameter is not significant, so we should try dropping one parameter from the within seasons part. In this case, we try both an ARIMA(0,1,1) $\times$ (0,1,1)$_{12}$ and an ARIMA(1,1,0) $\times$ (0,1,1)$_{12}$ model:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima(lx, 0,1,1, 0,1,1,12)
+sarima(lx, 1,1,0, 0,1,1,12)
+\end{lstlisting}
+
+Finally, we forecast the logged data out twelve months, and the results are shown
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+sarima.for(lx, 12, 0,1,1, 0,1,1,12)
+\end{lstlisting}
+\clearpage
+
+\subsection{Analysis of chicken series}
+
+
+Consider the monthly price (per pound) of a chicken in the US from mid--2001 to mid--2016 (180 months), say $x_t$. 
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+tsplot(chicken)
+\end{lstlisting}
+%
+There is an obvious upward trend in the series, and we might use simple linear regression to estimate that trend by fitting the model,
+%
+\begin{equation}
+x_t=\beta_0+\beta_1z_t+\varepsilon_t,\qquad z_t=2001\frac{7}{12},2001\frac{8}{12},\dots,2016\frac{6}{12},
+\end{equation}
+%
+This is in the form of the regression model. Note that $z_t$ is month and we are making the assumption that the errors, $\varepsilon_t$, are an iid normal sequence, which may not be true.
+\clearpage
+
+Using R, we obtained the estimated slope coefficient of yielding a highly significant estimated increase of about $3.6$ cents per year. 
+
+To perform this analysis in R, use the following commands:
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+summary(fit <- lm(chicken~time(chicken))) # regress price on time 
+tsplot(chicken, ylab="cents per pound")
+abline(fit) # add the fitted regression line to the plot
+\end{lstlisting}
+%
+\clearpage
+
+
+
+\subsection{Analysis of pollution, temperature and mortality}
+
+The data are extracted series from a study by Shumway et al. (1988) of the possible effects of temperature and pollution on weekly mortality in Los Angeles County. 
+
+Note the strong seasonal components in all of the series, corresponding to winter--summer variations and the downward trend in the cardiovascular mortality over the 10--year period.
+
+A scatterplot matrix indicates a possible linear relation between mortality and the pollutant particulates and a possible relation to temperature. Note the curvilinear shape of the temperature mortality curve, indicating that higher temperatures as well as lower temperatures are associated with increases in cardiovascular mortality.
+
+Based on the scatterplot matrix, we entertain, tentatively, four models where $M_t$ denotes cardiovascular mortality, $T_t$ denotes temperature and $P_t$ denotes the particulate levels. They are
+%
+\begin{align}
+\label{eq:temp_poll_mod_1}
+M_t&=\beta_0+\beta_1 t+\varepsilon_t\\
+\label{eq:temp_poll_mod_2}
+M_t&=\beta_0+\beta_1 t+\beta_2\left(T_t-\bar{T}\right)+\varepsilon_t\\
+\label{eq:temp_poll_mod_3}
+M_t&=\beta_0+\beta_1 t+\beta_2\left(T_t-\bar{T}\right)+\beta_3\left(T_t-\bar{T}\right)^2+\varepsilon_t\\
+\label{eq:temp_poll_mod_4}
+M_t&=\beta_0+\beta_1 t+\beta_2\left(T_t-\bar{T}\right)+\beta_3\left(T_t-\bar{T}\right)^2+\beta_4P_t+\varepsilon_t,
+\end{align}
+where we adjust temperature for its mean, $\bar{T}= 74.26$, to avoid collinearity problems.
+
+It is clear that \eqref{eq:temp_poll_mod_1} is a trend only model, \eqref{eq:temp_poll_mod_2} is linear temperature, \eqref{eq:temp_poll_mod_3} is curvilinear temperature and \eqref{eq:temp_poll_mod_4} is curvilinear temperature and pollution. 
+\clearpage
+
+Below is the R code to plot the series, display the scatterplot matrix, fit the final regression model \eqref{eq:temp_poll_mod_4}, and compute the corresponding values of AIC, AICc and BIC. 
+
+Finally, the use of na.action in \texttt{lm()} is to retain the time series attributes for the residuals and fitted values.
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+par(mfrow=c(3,1)) # plot the data
+tsplot(cmort, main="Cardiovascular Mortality", ylab="") 
+tsplot(tempr, main="Temperature", ylab="")
+tsplot(part, main="Particulates", ylab="")
+dev.new() # open a new graphic device 
+ts.plot(cmort,tempr,part, col=1:3) # all on same plot (not shown) 
+legend('topright', legend=c('Mortality', 'Temperature', 
+			'Pollution'), lty=1, col=1:3)
+\end{lstlisting}
+%
+\clearpage
+
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+dev.new()
+pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part)) 
+temp = tempr-mean(tempr) # center temperature
+temp2 = temp^2
+trend = time(cmort) # time
+fit = lm(cmort~ trend + temp + temp2 + part, na.action=NULL) summary(fit) # regression results
+summary(aov(fit)) # ANOVA table (compare to next line) 
+summary(aov(lm(cmort~cbind(trend, temp, temp2, part)))) # Table 2.1 
+num = length(cmort) # sample size
+AIC(fit)/num - log(2*pi) # AIC
+BIC(fit)/num - log(2*pi) # BIC
+(AICc = log(sum(resid(fit)^2)/num) + (num+5)/(num-5-2)) # AICc
+\end{lstlisting}
+
+
+
+
+\subsection{Analysis of Southern Oscillation Index (SOI)}
+
+It is possible to include lagged variables in time series regression models and we will continue to discuss this type of problem throughout the text. The following is a simple example of lagged regression.
+
+The Southern Oscillation Index (SOI) measured at time $t-6$ months is associated with the Recruitment series at time $t$, indicating that the SOI leads the Recruitment series by six months. 
+
+Although there is strong evidence that the relationship is NOT linear, for demonstration purposes only, we consider the following regression,
+%
+\begin{equation}
+R_t=\beta_0+\beta_1 S_{t-6}+\varepsilon_t,
+\end{equation}
+where $R_t$ denotes Recruitment for month t and $S_{t-6}$ denotes SOI six months
+prior.
+\clearpage
+
+Performing lagged regression in R is a little difficult because the series must be aligned prior to running the regression. The easiest way to do this is to create an object that we call fish using \texttt{ts.intersect}, which aligns the lagged series.
+%
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+fish = ts.intersect( rec, soiL6=lag(soi,-6) )
+summary(fit1 <- lm(rec~ soiL6, data=fish, na.action=NULL))
+\end{lstlisting}
+The headache of aligning the lagged series can be avoided by using the R package \texttt{dynlm}, which must be downloaded and installed.
+\begin{lstlisting}[belowskip=-0.8 \baselineskip]
+library(dynlm)
+summary(fit2 <- dynlm(rec~ L(soi,6)))
+\end{lstlisting}
+
+In the \texttt{dynlm} example, \texttt{fit2} is similar to a \texttt{lm} object, but the time series attributes are retained without any additional commands.
+
+
+This result indicates the strong predictive ability of SOI for Recruitment six months in advance.
+\clearpage
+%------------------------------------------------
+
+\thispagestyle{empty} % No slide header and footer
+
+\begin{tikzpicture}[remember picture,overlay] % Background box
+\node [xshift=\paperwidth/2,yshift=\paperheight/2] at (current page.south west)[rectangle,fill,inner sep=0pt,minimum width=\paperwidth,minimum height=\paperheight/3,top color=mygreen,bottom color=mygreen]{}; % Change the height of the box, its colors and position on the page here
+\end{tikzpicture}
+% Text within the box
+\begin{flushright}
+\vspace{0.6cm}
+\color{white}\sffamily
+{\bfseries\LARGE Questions?\par} % Request for questions text
+\vfill
+\end{flushright}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
