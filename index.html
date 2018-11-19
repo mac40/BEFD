@@ -15654,7 +15654,7 @@ $$y_t = \mu +\phi y_{t-1} +\theta\epsilon_{t-1}+\epsilon_t\ \ \ \ \epsilon_t \si
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Estimation">Estimation<a class="anchor-link" href="#Estimation">&#182;</a></h3><p>We assume we have $n$ observations, $x_1, ..., x_n$, from a causal and invertible Gaussian $ARMA(p,q)$ process in which, initially, the order parameters, $p$ and $q$, are known.</p>
-<p>Our goal is to estimate the parameters, $\phi_1, \phi_2, ..., \phi_p,\ \theta_1, \theta_2, ..., \theta_q$, and $\sigma^2_epsilon$. We will discuss the problem of determining $p$ and $q$ later in this section.</p>
+<p>Our goal is to estimate the parameters, $\phi_1, \phi_2, ..., \phi_p,\ \theta_1, \theta_2, ..., \theta_q$, and $\sigma^2_\epsilon$. We will discuss the problem of determining $p$ and $q$ later in this section.</p>
 <p>We begin with method of moments estimators. The idea behind these estimators is that of equating popuation moments, $E\left(x_k^t\right)$, to sample moments,$\frac{1}{n}\sum_{t=1}^nx^k_r$ for $k = 1, 2, ...$, and then solving for the parameters in terms of the sample moments.</p>
 <p>We immediately see that, if $E(x_t) = \mu$, then the method of moments estimator of $\mu$ is the sample average, $\bar{x}$. Thus, while discussing method of moments, we will assume $\mu = 0$.</p>
 <p>Although the method of moments can produce good estimators, they can sometimes lead to suboptimal estimators. We first consider the case in which the method leads to optimal
