@@ -4,6 +4,7 @@ Heston model algorithm
 # pylint: disable-msg=C0103
 
 import numpy as np
+import pandas as pd
 
 
 def nmle_cekf(S):
@@ -13,40 +14,40 @@ def nmle_cekf(S):
     # VARIABLES
 
     #   EXTENDED KALMAN FILTER
-    V_HAT = np.empty(len(S)) # Predicted Volatility
-    V_BAR = np.empty(len(S)) # State prediction estimation
-    P = np.empty(len(S)) # Variance Covariance matrix upper-bound
-    P_BAR = np.empty(len(S)) # Prediction estimation-error covariance
+    V_HAT = np.zeros(len(S)) # Predicted Volatility
+    V_BAR = np.zeros(len(S)) # State prediction estimation
+    P = np.zeros(len(S)) # Variance Covariance matrix upper-bound
+    P_BAR = np.zeros(len(S)) # Prediction estimation-error covariance
     Q = [None]*len(S) # list of 2x2 matrices
-    K = np.empty(len(S)) # Kalman Gain
+    K = np.zeros(len(S)) # Kalman Gain
     #       LINEARIZATION MATRICES
     #           STATE FUNCTION
-    F = np.empty(len(S))
+    F = np.zeros(len(S))
     L = [None]*len(S) # list of 2x1 matrices
     #           MEASUREMENT FUNCTION
-    H = np.empty(len(S))
+    H = np.zeros(len(S))
     M = [None]*len(S) # list of 2x1 matrices
 
     #   MAXIMUM LIKELIHOOD ESTIMATION
-    KAPTH_HAT = np.empty(len(S))
-    THETA_HAT = np.empty(len(S))
-    SIGMA_HAT = np.empty(len(S))
-    RO_HAT = np.empty(len(S))
+    KAPTH_HAT = np.zeros(len(S))
+    THETA_HAT = np.zeros(len(S))
+    SIGMA_HAT = np.zeros(len(S))
+    RO_HAT = np.zeros(len(S))
 
     # AUXILIARY VARIABLES
-    ZETA = np.empty(len(S))
-    for i, _ in enumerate(S):
+    ZETA = np.zeros(len(S))
+    for i in range(0, len(S)-1):
         ZETA[i] = np.log(S[i+1]) - np.log(S[i])
     deltaT = 1/250 # year/measurements_per_year ration
     R = 0.0005 # Annual interest rate
-    deltaQ = np.empty(len(S)) # tbd
-    deltaR = np.empty(len(S)) # tbd
-    deltaW1 = np.empty(len(S))
-    deltaW2 = np.empty(len(S))
+    deltaQ = np.zeros(len(S)) # tbd
+    deltaR = np.zeros(len(S)) # tbd
+    deltaW1 = np.zeros(len(S))
+    deltaW2 = np.zeros(len(S))
     delta = 0.01
 
     # INITIALIZATION
-    S = np.concatenate([np.mean(S[:5])], S) # new S[0]
+    S = np.append(np.array([np.mean(S[:5])]), S) # new S[0]
     V_HAT[0] = np.var(np.log(S[1:5]/S[:4]))
     P[0] = np.mean((S[:5]-np.mean(S[:5]))**4)
 
@@ -107,4 +108,7 @@ def nmle_cekf(S):
     return V_HAT
 
 if __name__ == "__main__":
-    pass
+    sp500 = pd.read_csv(
+        './Datasets/Datasets - Finance-20181023/s&p500.csv')
+    sp500 = np.array(sp500.Close)
+    Volatility = nmle_cekf(sp500)
