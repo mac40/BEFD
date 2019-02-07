@@ -3,4 +3,5 @@
 *.zip
 Slides
 Datasets
-Project
+.RData
+.Rhistory
