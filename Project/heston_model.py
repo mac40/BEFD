@@ -3,9 +3,11 @@ Heston model algorithm
 '''
 # pylint: disable-msg=C0103
 
+import warnings
 import numpy as np
 import pandas as pd
 
+warnings.filterwarnings('error')
 
 def nmle_cekf(S):
     '''
@@ -46,8 +48,9 @@ def nmle_cekf(S):
     delta = 0.01
 
     # INITIALIZATION
-    V_HAT[0] = np.var(np.log(S[1:5]/S[:4]))
-    P[0] = np.mean((S[:5]-np.mean(S[:5]))**4)
+    V_HAT[0] = 0.3
+    # P[0] = np.mean((S[:5]-np.mean(S[:5]))**4)
+    P[0] = 0.1
 
     for i in range(0, len(S)-1):
         ZETA[i] = np.log(S[i+1]) - np.log(S[i])
@@ -56,7 +59,7 @@ def nmle_cekf(S):
 
     KAPTH_HAT[0] = 1
     THETA_HAT[0] = 0.250
-    SIGMA_HAT[0] = 0.5
+    SIGMA_HAT[0] = 0.1
     RO_HAT[0] = 0.0001
 
     #UPDATE
@@ -70,11 +73,11 @@ def nmle_cekf(S):
                     - KAPTH_HAT[k] * V_HAT[k] * deltaT
         deltaQ[k] = P[k] * max(np.absolute(1 - KAPTH_HAT[:k+1] * deltaT)**2) \
                     + deltaT**2 * max(np.absolute(KAPTH_HAT[:k+1] * THETA_HAT[:k+1])**2) \
-                    + max(np.absolute(SIGMA_HAT[k])**2) * deltaT * V_HAT[k] * Q[k][1, 1] \
+                    + np.absolute(SIGMA_HAT[k])**2 * deltaT * V_HAT[k] * Q[k][1, 1] \
                     - F[k] * P[k] * np.transpose(F[k]) \
-                    + L[k] * Q[k] * np.transpose(L[k])
+                    + L[k].dot(Q[k]).dot(np.transpose(L[k]))
         P_BAR[k+1] = F[k] * P[k] * np.transpose(F[k]) \
-                    + L[k] * Q[k] * np.transpose(L[k]) \
+                    + L[k].dot(Q[k]).dot(np.transpose(L[k])) \
                     + deltaQ[k]
         # LINEARIZATION MATRICES OF THE MEASUREMENT FUNCTION
         H[k+1] = -1/2 * deltaT
@@ -82,46 +85,53 @@ def nmle_cekf(S):
                            RO_HAT[k] * np.sqrt(V_BAR[k+1] * deltaT)])
         # STATE ESTIMATE AND ERROR COVARIANCE
         K[k+1] = (P_BAR[k+1] * np.transpose(H[k+1]) \
-                  + L[k] * Q[k] * np.transpose(M[k+1])) \
+                  + L[k].dot(Q[k]).dot(np.transpose(M[k+1]))) \
                  * \
                  (H[k+1] * P_BAR[k] * np.transpose(H[k+1]) \
-                  + M[k+1] * Q[k] * np.transpose(M[k+1]) \
-                  + H[k+1] * L[k] * Q[k] * np.transpose(M[k+1]) \
-                  + M[k+1] * Q[k] * np.transpose(L[k]) * np.transpose(H[k+1]))**(-1)
+                  + M[k+1].dot(Q[k]).dot(np.transpose(M[k+1])) \
+                  + H[k+1] * L[k].dot(Q[k]).dot(np.transpose(M[k+1])) \
+                  + M[k+1].dot(Q[k]).dot(np.transpose(L[k])) * np.transpose(H[k+1]))**(-1)
         V_HAT[k+1] = V_BAR[k+1] + K[k+1] * (ZETA[k+1] - 1/2 * V_BAR[k+1])
         deltaR[k+1] = P_BAR[k+1] * (1 + (K[k+1] * deltaT)/2)**2 \
                      + 2 * K[k+1]**2 * deltaT * V_BAR[k] * ((1 - RO_HAT[k]) * Q[k][0, 0] \
                      + RO_HAT[k]**2 * Q[k][1, 1]) \
                      - P_BAR[k+1] \
-                     + K[k+1] * (H[k+1] * P_BAR[k+1] + M[k+1] * np.transpose(L[k]))
+                     + K[k+1] * (H[k+1] * P_BAR[k+1] + M[k+1].dot(np.transpose(L[k])))
         P[k+1] = P_BAR[k+1] \
                 - K[k+1] \
-                * (H[k+1] * P_BAR[k+1] + M[K+1] * np.transpose(L[k])) \
+                * (H[k+1] * P_BAR[k+1] + M[k+1].dot(np.transpose(L[k]))) \
                 + deltaR[k+1]
         # PARAMETER ESTIMATION
-        P_HAT = (1/k * np.sum(np.sqrt(V_HAT[1:k+1] * V_HAT[:k])) \
-                 - 1/(k**2) * np.sum(np.sqrt(V_HAT[1:k+1]/V_HAT[:k])) * np.sum(V_HAT[k])) \
-                * \
-                (delta/2 \
-                 - delta/2 * 1/(k**2) * np.sum(1/V_HAT[k]) * np.sum(V_HAT[k]))**(-1)
-        KAPTH_HAT[k+1] = 2 * delta**(-1) * (1 + (P_HAT * delta)/2 * 1/k * np.sum(1/V_HAT[:k]) \
-                                       - 1/k * np.sum(np.sqrt(V_HAT[1:k+1]/V_HAT[:k])))
-        SIGMA_HAT[k+1] = np.sqrt(4/delta * 1/k * np.sum((np.sqrt(V_HAT[1:k+1]) \
-                         - np.sqrt(V_HAT[:k]) \
-                         - delta/(2 * np.sqrt(V_HAT[:k])) \
-                         * (P_HAT - KAPTH_HAT[k+1] * V_HAT[:k]))**2))
+        try:
+            P_HAT = (1/(k+1) * np.sum(np.sqrt(V_HAT[:k+1] * V_HAT[1:k+2])) \
+                    - 1/((k+1)**2) * np.sum(np.sqrt(V_HAT[1:k+2]/V_HAT[:k+1])) \
+                    * np.sum(V_HAT[:k+1])) \
+                    / \
+                    (delta/2 - delta/2 * 1/((k+1)**2) \
+                    * np.sum(1/V_HAT[:k+1]) * np.sum(V_HAT[:k+1]))
+        except Warning:
+            print("Division by Zero! setting P_HAT = 0.072")
+            P_HAT = 0.072
+        KAPTH_HAT[k+1] = 2/delta \
+                        * (1 + (P_HAT * delta)/2 * 1/(k+1) * np.sum(1/V_HAT[:k+1]) \
+                        - 1/(k+1) * np.sum(np.sqrt(V_HAT[1:k+2]/V_HAT[:k+1])))
+        SIGMA_HAT[k+1] = np.sqrt(4/delta * 1/(k+1) \
+                         * np.sum((np.sqrt(V_HAT[1:k+2]) \
+                         - np.sqrt(V_HAT[:k+1]) \
+                         - delta/(2 * np.sqrt(V_HAT[:k+1])) \
+                         * (P_HAT - KAPTH_HAT[k+1] * V_HAT[:k+1]))**2))
         THETA_HAT[k+1] = (P_HAT + 1/4 * SIGMA_HAT[k+1]**2)/KAPTH_HAT[k+1]
 
         deltaW1[k+1] = (np.log(S[k+1]) - np.log(S[k]) - (R - 1/2 * V_HAT[k]) * delta) \
                       /(np.sqrt(V_HAT[k]))
         deltaW2[k+1] = (V_HAT[k+1] - V_HAT[k] - KAPTH_HAT[k+1] \
-                      * (THETA_HAT[k+1] -V_HAT[k]) * delta) \
+                      * (THETA_HAT[k+1] - V_HAT[k]) * delta) \
                       / (SIGMA_HAT[k+1] * np.sqrt(V_HAT[k]))
-        RO_HAT[k+1] = 1/(k * delta) * np.sum(deltaW1[1:k+1] * deltaW2[1:k+1])
+        RO_HAT[k+1] = 1/((k+1) * delta) * np.sum(deltaW1[1:k+2] * deltaW2[1:k+2])
     return V_HAT
 
 if __name__ == "__main__":
     sp500 = pd.read_csv(
         './Datasets/Datasets - Finance-20181023/s&p500.csv')
-    sp500 = np.array(sp500.Close)
+    sp500 = np.array(sp500[-1000:].Close)
     Volatility = nmle_cekf(sp500)
