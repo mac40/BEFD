@@ -30,12 +30,11 @@ def state_space_heston_discrete(param, prev_obs, delta_motions):
     sigma = param["sigma"]
     delta = param["delta"]
     rho = param["rho"]
-    delta_W_v = delta_motions[0]
-    delta_W_s = delta_motions[1]
-    V = prev_obs + k * (theta - prev_obs) * delta + sigma * np.sqrt(prev_obs) * delta_W_v
-    if V < 0:
-        V = prev_obs
-    z = (r - V/2) * delta + np.sqrt((1 - rho**2)*V) * delta_W_s + rho * np.sqrt(V) * delta_W_v
+    #delta_W_v = delta_motions[0]
+    #delta_W_s = delta_motions[1]
+    V = prev_obs + k * (theta - prev_obs) * delta + sigma * np.sqrt(prev_obs) * np.sqrt(delta) * np.random.normal()
+    V = max((V,0))
+    z = (r - V/2) * delta + np.sqrt((1 - rho**2)*V) * np.sqrt(delta) * np.random.normal() + rho * np.sqrt(V) * np.sqrt(delta) * np.random.normal()
     return z, V
 
 
@@ -65,5 +64,5 @@ if __name__ == '__main__':
     W_v = generate_brownian_motion(n).reshape(n+1, 1)
     W_s = generate_brownian_motion(n).reshape(n+1, 1)
     motions = pd.DataFrame(np.concatenate([W_v, W_s], axis=1), columns=["W_v", "W_s"])
-    param = {"r" : 0.005, "k" : 1, "theta" : 0.25, "sigma" : 0.5, "delta" : 1, "rho" : 0.0001}
+    param = {"r" : 0.005, "k" : 1, "theta" : 0.25, "sigma" : 0.5, "delta" : 0.01, "rho" : 0.0001}
     S, z, V = generate_stock_data(n, param, motions)
