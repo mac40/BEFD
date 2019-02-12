@@ -6,7 +6,9 @@ Heston model implementation
 import sys
 
 import numpy as np
-import pandas as pd
+# import pandas as pd
+
+import state_space_simulation as sss
 
 
 def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
@@ -114,14 +116,14 @@ def maximum_likelyhood_estimation(S, Consistent=False):
     # AUXILIARY VARIABLES
     deltaW1 = np.zeros(T)
     deltaW2 = np.zeros(T)
-    deltaT = 1
-    delta = 1
-    R = 0.0005  # Annual Interest Rate
+    deltaT = 0.01
+    delta = 0.01
+    R = 0.005  # Annual Interest Rate
 
     # INITIALIZATION
     KAPTH_HAT[0] = 1
     THETA_HAT[0] = 0.250
-    SIGMA_HAT[0] = 0.1
+    SIGMA_HAT[0] = 0.5
     RO_HAT[0] = 0.0001
 
     # UPDATE
@@ -156,7 +158,10 @@ def maximum_likelyhood_estimation(S, Consistent=False):
 if __name__ == "__main__":
     with open('./Project/v_hat.out', 'w') as out:
         out.write('')
-    sp500 = pd.read_csv(sys.argv[1])
-    sp500 = np.array(sp500[-1000:].Close)
-    Volatility = maximum_likelyhood_estimation(sp500, sys.argv[2])
+    # data = pd.read_csv(sys.argv[1])
+    # data = np.array(data[-1000:].Close)
+    param = {"r": 0.005, "k": 1, "theta": 0.25,
+             "sigma": 0.5, "delta": 0.01, "rho": 0.0001}
+    data = sss.generate_stock_data(1000, param)[0]
+    Volatility = maximum_likelyhood_estimation(data, sys.argv[2])
     print(Volatility)
