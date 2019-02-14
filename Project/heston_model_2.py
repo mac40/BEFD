@@ -40,7 +40,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
 
     for i in range(0, len(S)-1):
         ZETA[i] = np.log(S[i+1]) - np.log(S[i])
-    for i in range(0, len(S)-1):
+    for i in range(0, len(S)):
         Q[i] = np.diag(np.array([1, 1]))
 
     # UPDATE
@@ -81,7 +81,9 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                      + M[k+1].dot(Q[k]).dot(np.transpose(M[k+1]))
                      + H[k+1] * L[k].dot(Q[k]).dot(np.transpose(M[k+1]))
                      + M[k+1].dot(Q[k]).dot(np.transpose(L[k])) * np.transpose(H[k+1]))**(-1))
-        V_HAT[k+1] = V_BAR[k+1] + K[k+1] * (ZETA[k+1] - ((R - 1/2 * V_BAR[k+1]) * delta))
+        # added absolute value to avoid negative Volatilities
+        V_HAT[k+1] = np.absolute(V_BAR[k+1] + K[k+1]
+                                 * (ZETA[k+1] - ((R - 1/2 * V_BAR[k+1]) * delta)))
         if Consistent:
             deltaR[k+1] = (P_BAR[k+1] * (1 + (K[k+1] * deltaT)/2)**2
                            + 2 * K[k+1]**2 * deltaT * V_BAR[k]
@@ -89,7 +91,14 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                               + RO_HAT**2 * Q[k][1, 1]) - P_BAR[k+1]
                            + K[k+1] * (H[k+1] * P_BAR[k+1]
                                        + M[k+1].dot(np.transpose(L[k]))))
-        P[k+1] = (P_BAR[k+1] - K[k+1] * (H[k+1] * P_BAR[k+1] + M[k+1].dot(np.transpose(L[k])))
+        # old P[k+1] update
+        # P[k+1] = (P_BAR[k+1] - K[k+1] * (H[k+1] * P_BAR[k+1] + M[k+1].dot(np.transpose(L[k])))
+        #           + deltaR[k+1])
+        # Paolo's version
+        P[k+1] = ((1 - K[k+1] * H[k+1]) * (P_BAR[k+1]) * (np.transpose(1 - K[k+1] * H[k+1]))
+                  + K[k+1] * M[k+1].dot(Q[k+1]).dot(M[k+1].T) * K[k+1].T
+                  - (1 - K[k+1] * H[k+1]) * (L[k]).dot(Q[k+1]).dot(M[k+1].T) * K[k+1].T
+                  - K[k+1] * M[k+1].dot(Q[k+1]).dot(L[k].T) * ((1 - K[k+1] * H[k+1]).T)
                   + deltaR[k+1])
     with open('./Project/v_hat.out', 'a') as outfile:
         aux_string = ""
@@ -162,6 +171,6 @@ if __name__ == "__main__":
     # data = np.array(data[-1000:].Close)
     param = {"r": 0.005, "k": 1, "theta": 0.25,
              "sigma": 0.5, "delta": 0.01, "rho": 0.0001}
-    data = sss.generate_stock_data(1000, param)[0]
+    data = sss.generate_stock_data(1000, param, 'nmle')[0]
     Volatility = maximum_likelyhood_estimation(data, sys.argv[2])
     print(Volatility)
