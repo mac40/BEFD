@@ -6,11 +6,12 @@ Model simulation from Heston model state space
 
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def state_space_heston_discrete(param, prev_obs):
     '''
-    State space heston discrete (need better definition)
+    Volatility simulation
     '''
     r = param["r"]
     k = param["k"]
@@ -18,14 +19,13 @@ def state_space_heston_discrete(param, prev_obs):
     sigma = param["sigma"]
     delta = param["delta"]
     rho = param["rho"]
-    # delta_W_v = delta_motions[0]
-    # delta_W_s = delta_motions[1]
+    epsilons = [np.random.normal(), np.random.normal()]
     V_tilde = (prev_obs + k * (theta - max((prev_obs, 0))) * delta
-               + sigma * np.sqrt(max((prev_obs, 0))) * np.sqrt(delta) * np.random.normal())
+               + sigma * np.sqrt(max((prev_obs, 0))) * np.sqrt(delta) * epsilons[1])
     V = max((V_tilde, 0))
     z = ((r - V/2) * delta
-         + np.sqrt((1 - rho**2)*V) * np.sqrt(delta) * np.random.normal()
-         + rho * np.sqrt(V) * np.sqrt(delta) * np.random.normal())
+         + np.sqrt((1 - rho**2)*V) * np.sqrt(delta) * epsilons[0]
+         + rho * np.sqrt(V) * np.sqrt(delta) * epsilons[1])
     return z, V, V_tilde
 
 
@@ -53,3 +53,5 @@ if __name__ == '__main__':
     n = 1000
     param = {"r" : 0.005, "k" : 1, "theta" : 0.25, "sigma" : 0.5, "delta" : 0.01, "rho" : 0.0001}
     S, z, V = generate_stock_data(n, param)
+    plt.plot(S)
+    plt.show()
