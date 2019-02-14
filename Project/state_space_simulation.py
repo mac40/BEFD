@@ -40,9 +40,10 @@ def state_space_heston_discrete_nmle(param, prev_obs):
     rho = param["rho"]
     epsilons = [np.random.normal(), np.random.normal()]
     eta = 0.0001
-    V_tilde_sq = np.sqrt(prev_obs) 
-    + 1/(2 * np.sqrt(np.max(prev_obs,eta))) * (k * theta - k * prev_obs - 1/4 * sigma ** 2) * delta 
-    + 1/2 * sigma * np.sqrt(delta) * epsilons[1]
+    V_tilde_sq = (np.sqrt(prev_obs)
+                  + 1/(2 * np.sqrt(np.max(prev_obs, eta)))
+                  * (k * theta - k * prev_obs - 1/4 * sigma ** 2) * delta
+                  + 1/2 * sigma * np.sqrt(delta) * epsilons[1])
     V_sq = max((V_tilde_sq, 0))
     V = V_sq ** 2
     V_tilde = V_tilde_sq ** 2
@@ -62,6 +63,7 @@ def generate_stock_data(n, param, discretization):
     S = np.empty(n + 2)
     V[0] = 0.2
     V_tilde[0] = 0.2
+    S[0] = 100
     S[1] = 100
     for k in range(1, n+1):
         if discretization == "euler":
