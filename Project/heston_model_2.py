@@ -6,9 +6,9 @@ Heston model implementation
 import sys
 
 import numpy as np
-# import pandas as pd
+import pandas as pd
 
-import state_space_simulation as sss
+# import state_space_simulation as sss
 
 
 def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
@@ -18,6 +18,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
     '''
     # VARIABLES
     V_HAT = np.zeros(len(S))  # Predicted Volatility
+
     # AUXILIARY VARIABLES
     V_BAR = np.zeros(len(S))  # State prediction estimation
     P = np.zeros(len(S))  # Variance Covariance matrix upper-bound
@@ -45,11 +46,13 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
 
     # UPDATE
     for k in range(0, len(S)-1):
+
         # LINEARIZATION MATRICES OF THE STATE FUNCTION
         F[k] = 1 - KAPTH_HAT * deltaT
         # old chinese version...deltaT?
         # L[k] = np.array([0, SIGMA_HAT * np.sqrt(V_HAT[k] * deltaT)])
         L[k] = np.array([0, SIGMA_HAT * np.sqrt(V_HAT[k])])
+
         # STATE PREDICTION ESTIMATION AND PREDICTION ESTIMATION-ERROR COVARIANCE
         V_BAR[k+1] = (V_HAT[k]
                       + KAPTH_HAT * THETA_HAT * deltaT
@@ -67,6 +70,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
         #               + deltaQ[k])
         P_BAR[k+1] = (F[k] * P[k] * np.transpose(F[k])
                       + deltaQ[k])
+
         # LINEARIZATION MATRICES OF THE MEASUREMENT FUNCTION
         H[k+1] = -1/2 * deltaT
         # old chinese version...deltaT?
@@ -74,6 +78,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
         #                    RO_HAT * np.sqrt(V_BAR[k+1] * deltaT)])
         M[k+1] = np.array([np.sqrt((1 - RO_HAT**2) * V_BAR[k+1]),
                            RO_HAT * np.sqrt(V_BAR[k+1])])
+
         # STATE ESTIMATE AND ERROR COVARIANCE
         K[k+1] = ((P_BAR[k+1] * np.transpose(H[k+1])
                    + L[k].dot(Q[k]).dot(np.transpose(M[k+1])))
@@ -81,9 +86,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                      + M[k+1].dot(Q[k]).dot(np.transpose(M[k+1]))
                      + H[k+1] * L[k].dot(Q[k]).dot(np.transpose(M[k+1]))
                      + M[k+1].dot(Q[k]).dot(np.transpose(L[k])) * np.transpose(H[k+1]))**(-1))
-        # added absolute value to avoid negative Volatilities
-        V_HAT[k+1] = np.absolute(V_BAR[k+1] + K[k+1]
-                                 * (ZETA[k+1] - ((R - 1/2 * V_BAR[k+1]) * delta)))
+        V_HAT[k+1] = (V_BAR[k+1] + K[k+1] * (ZETA[k+1] - ((R - 1/2 * V_BAR[k+1]) * delta)))
         if Consistent:
             deltaR[k+1] = (P_BAR[k+1] * (1 + (K[k+1] * deltaT)/2)**2
                            + 2 * K[k+1]**2 * deltaT * V_BAR[k]
@@ -100,11 +103,14 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                   - (1 - K[k+1] * H[k+1]) * (L[k]).dot(Q[k+1]).dot(M[k+1].T) * K[k+1].T
                   - K[k+1] * M[k+1].dot(Q[k+1]).dot(L[k].T) * ((1 - K[k+1] * H[k+1]).T)
                   + deltaR[k+1])
+
+    # Save V_HAT for each iteration to external out file
     with open('./Project/v_hat.out', 'a') as outfile:
         aux_string = ""
         for item in V_HAT:
             aux_string = aux_string + " " + str(item)
         outfile.write("{}\n".format(aux_string))
+
     return V_HAT
 
 
@@ -116,17 +122,19 @@ def maximum_likelyhood_estimation(S, Consistent=False):
     # ADDING S[0]
     S = np.append(np.array([np.mean(S[:5])]), S)  # new S[0]
     T = len(S)  # Number of measurements
+
     # VARIABLES
     V_HAT = np.zeros(T)
     KAPTH_HAT = np.zeros(T+1)
     THETA_HAT = np.zeros(T+1)
     SIGMA_HAT = np.zeros(T+1)
     RO_HAT = np.zeros(T+1)
+
     # AUXILIARY VARIABLES
     deltaW1 = np.zeros(T)
     deltaW2 = np.zeros(T)
-    deltaT = 0.01
-    delta = 0.01
+    deltaT = 1
+    delta = 1
     R = 0.005  # Annual Interest Rate
 
     # INITIALIZATION
@@ -141,17 +149,24 @@ def maximum_likelyhood_estimation(S, Consistent=False):
             S, KAPTH_HAT[i], THETA_HAT[i], SIGMA_HAT[i], RO_HAT[i], deltaT, R, delta, Consistent)
         P_HAT = (1/(T) * np.sum(np.sqrt(V_HAT[:T-1] * V_HAT[1:T]))
                  - 1/((T)**2) * np.sum(np.sqrt(V_HAT[1:T]/V_HAT[:T-1]))
-                 * np.sum(V_HAT[:T-1])) / (delta/2 - delta/2 * 1/((i+1)**2)
+                 * np.sum(V_HAT[:T-1])) / (delta/2 - delta/2 * 1/(T**2)
                                            * np.sum(1/V_HAT[:T-1]) * np.sum(V_HAT[:T-1]))
+        # original Kapth_hat
         KAPTH_HAT[i+1] = 2/delta * (1 + (P_HAT * delta)/2 * 1/(T) * np.sum(1/V_HAT[:T-1])
                                     - 1/(T) * np.sum(np.sqrt(V_HAT[1:T]/V_HAT[:T-1])))
+        # modified kapth_hat for future tests
+        # KAPTH_HAT[i+1] = -1/delta * np.log((T**(-2)
+        #                                     * np.sum(V_HAT[1:T]) * np.sum(V_HAT[:T-1]**(-1))
+        #                                     - T**(-1) * np.sum(V_HAT[:T-1] * V_HAT[1:T]**(-1)))
+        #                                    /
+        #                                    (T**(-2) * np.sum(V_HAT[:T-1])
+        #                                     * np.sum(V_HAT[:T-1]**(-1)) - 1))
         SIGMA_HAT[i+1] = np.sqrt(4/delta * 1/(T)
                                  * np.sum((np.sqrt(V_HAT[1:T])
                                            - np.sqrt(V_HAT[:T-1])
                                            - delta/(2 * np.sqrt(V_HAT[:T-1]))
                                            * (P_HAT - KAPTH_HAT[i+1] * V_HAT[:T-1]))**2))
         THETA_HAT[i+1] = (P_HAT + 1/4 * SIGMA_HAT[i+1]**2)/KAPTH_HAT[i+1]
-        # THETA_HAT[i+1] = 2 * SIGMA_HAT[i+1]**2/KAPTH_HAT[i+1]
 
         for k in range(0, T-1):
             deltaW1[k+1] = (np.log(S[k+1]) - np.log(S[k]) -
@@ -167,10 +182,10 @@ def maximum_likelyhood_estimation(S, Consistent=False):
 if __name__ == "__main__":
     with open('./Project/v_hat.out', 'w') as out:
         out.write('')
-    # data = pd.read_csv(sys.argv[1])
-    # data = np.array(data[-1000:].Close)
-    param = {"r": 0.005, "k": 1, "theta": 0.25,
-             "sigma": 0.5, "delta": 0.01, "rho": 0.0001}
-    data = sss.generate_stock_data(1000, param, 'nmle')[0]
+    data = pd.read_csv(sys.argv[1])
+    data = np.array(data[-10000:].Close)
+    # param = {"r": 0.005, "k": 1, "theta": 0.25,
+    #          "sigma": 0.5, "delta": 0.01, "rho": 0.0001}
+    # data = sss.generate_stock_data(1000, param, 'nmle')[0]
     Volatility = maximum_likelyhood_estimation(data, sys.argv[2])
     print(Volatility)
