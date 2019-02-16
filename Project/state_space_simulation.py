@@ -109,11 +109,15 @@ def simulation(n, param):
     return S, z, V, sqrt_V
 
 if __name__ == '__main__':
+    # initialization parameters
     n = 1000
     param = {"r": 0.05, "k": 1, "theta": 0.05,
              "sigma": 0.01, "delta": 0.01, "rho": 0.01}
-    # S, z, V = generate_stock_data(n, param, "nmle")
+
+    # simulation
     S, z, V, sqrt_V = simulation(n, param)
+
+    # Plotting generated data
     fig, axes = plt.subplots(2, 2)
     axes[0, 0].plot(S)
     axes[0, 0].set_title('S')

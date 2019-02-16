@@ -49,8 +49,6 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
 
         # LINEARIZATION MATRICES OF THE STATE FUNCTION
         F[k] = 1 - KAPTH_HAT * deltaT
-        # old chinese version...deltaT?
-        # L[k] = np.array([0, SIGMA_HAT * np.sqrt(V_HAT[k] * deltaT)])
         L[k] = np.array([0, SIGMA_HAT * np.sqrt(V_HAT[k])])
 
         # STATE PREDICTION ESTIMATION AND PREDICTION ESTIMATION-ERROR COVARIANCE
@@ -58,24 +56,19 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                       + KAPTH_HAT * THETA_HAT * deltaT
                       - KAPTH_HAT * V_HAT[k] * deltaT)
 
+        # DeltaQ for consistency
         if Consistent:
             deltaQ[k] = (P[k] * (1 - KAPTH_HAT * deltaT)**2
                          + deltaT**2 * (KAPTH_HAT * THETA_HAT)**2
                          + (SIGMA_HAT)**2 * deltaT * V_HAT[k] * Q[k][1, 1]
                          - F[k] * P[k] * np.transpose(F[k])
                          + L[k].dot(Q[k]).dot(np.transpose(L[k])))
-        # old chinese version...LQL^T?
-        # P_BAR[k+1] = (F[k] * P[k] * np.transpose(F[k])
-        #               + L[k].dot(Q[k]).dot(np.transpose(L[k]))
-        #               + deltaQ[k])
+
         P_BAR[k+1] = (F[k] * P[k] * np.transpose(F[k])
                       + deltaQ[k])
 
         # LINEARIZATION MATRICES OF THE MEASUREMENT FUNCTION
         H[k+1] = -1/2 * deltaT
-        # old chinese version...deltaT?
-        # M[k+1] = np.array([np.sqrt((1 - RO_HAT**2) * V_BAR[k+1] * deltaT),
-        #                    RO_HAT * np.sqrt(V_BAR[k+1] * deltaT)])
         M[k+1] = np.array([np.sqrt((1 - RO_HAT**2) * V_BAR[k+1]),
                            RO_HAT * np.sqrt(V_BAR[k+1])])
 
@@ -87,6 +80,8 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                      + H[k+1] * L[k].dot(Q[k]).dot(np.transpose(M[k+1]))
                      + M[k+1].dot(Q[k]).dot(np.transpose(L[k])) * np.transpose(H[k+1]))**(-1))
         V_HAT[k+1] = (V_BAR[k+1] + K[k+1] * (ZETA[k+1] - ((R - 1/2 * V_BAR[k+1]) * delta)))
+
+        # DeltaR for consistency
         if Consistent:
             deltaR[k+1] = (P_BAR[k+1] * (1 + (K[k+1] * deltaT)/2)**2
                            + 2 * K[k+1]**2 * deltaT * V_BAR[k]
@@ -94,6 +89,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
                               + RO_HAT**2 * Q[k][1, 1]) - P_BAR[k+1]
                            + K[k+1] * (H[k+1] * P_BAR[k+1]
                                        + M[k+1].dot(np.transpose(L[k]))))
+
         P[k+1] = ((1 - K[k+1] * H[k+1]) * (P_BAR[k+1]) * (np.transpose(1 - K[k+1] * H[k+1]))
                   + K[k+1] * M[k+1].dot(Q[k+1]).dot(M[k+1].T) * K[k+1].T
                   - (1 - K[k+1] * H[k+1]) * (L[k]).dot(Q[k+1]).dot(M[k+1].T) * K[k+1].T
@@ -141,11 +137,16 @@ def maximum_likelyhood_estimation(S, parameters, Consistent=False):
 
     # UPDATE
     for i, _ in enumerate(S):
+        # GENERATE VOLATILITIES FOR EACH MLE ITERATION
         V_HAT = consistent_extended_kalman_filter(
             S, KAPTH_HAT[i], THETA_HAT[i], SIGMA_HAT[i], RO_HAT[i], deltaT, R, delta, Consistent)
+
+        # AUXILIARY VALUE FOR KAPTH, THETA, SIGMA GENERATION
         P_HAT = ((1/T * np.sum(np.sqrt(V_HAT[:T-1] * V_HAT[1:T]))
                   - 1/(T**2) * np.sum(np.sqrt(V_HAT[1:T]/V_HAT[:T-1])) * np.sum(V_HAT[:T-1]))
                  / (delta/2 - delta/2 * 1/(T**2) * np.sum(1/V_HAT[:T-1]) * np.sum(V_HAT[:T-1])))
+
+        # KAPH THETA SIGMA GENERATION
         KAPTH_HAT[i+1] = (2/delta * (1 + (P_HAT * delta)/2 * 1/T * np.sum(1/V_HAT[:T-1])
                                      - 1/T * np.sum(np.sqrt(V_HAT[1:T]/V_HAT[:T-1]))))
         SIGMA_HAT[i+1] = np.sqrt(4/delta * 1/T
@@ -155,6 +156,7 @@ def maximum_likelyhood_estimation(S, parameters, Consistent=False):
                                            * (P_HAT - KAPTH_HAT[i+1] * V_HAT[:T-1]))**2))
         THETA_HAT[i+1] = (P_HAT + 1/4 * SIGMA_HAT[i+1]**2)/KAPTH_HAT[i+1]
 
+        # AUXILIARY VARIABLES FOR RHO GENERATION
         for k in range(0, T-1):
             deltaW1[k+1] = (np.log(S[k+1]) - np.log(S[k]) -
                             (R - 1/2 * V_HAT[k]) * delta) / (np.sqrt(V_HAT[k]))
@@ -163,7 +165,10 @@ def maximum_likelyhood_estimation(S, parameters, Consistent=False):
                             - KAPTH_HAT[i+1]
                             * (THETA_HAT[i+1] - V_HAT[k])
                             * delta) / (SIGMA_HAT[i+1] * np.sqrt(V_HAT[k]))
+
+        # RHO GENERATION
         RO_HAT[i+1] = 1/(T * delta) * np.sum(deltaW1[1:T] * deltaW2[1:T])
+
     return V_HAT
 
 if __name__ == "__main__":
