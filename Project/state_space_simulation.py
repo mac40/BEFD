@@ -77,9 +77,51 @@ def generate_stock_data(n, param, discretization):
     return S, z, V
 
 
+def simulation(n, param):
+    '''
+    data simulation revisited
+    '''
+    V = np.zeros(n)
+    V[0] = 0.05
+    sqrt_V = np.zeros(n)
+    sqrt_V[0] = np.sqrt(V[0])
+    z = np.zeros(n)
+    z[0] = 0
+    S = np.zeros(n)
+    S[0] = 1000
+    Wv = np.random.normal(0, 1, n)
+    Ws = np.random.normal(0, 1, n)
+    kappa = param["k"]
+    theta = param["theta"]
+    sigma = param["sigma"]
+    rho = param["rho"]
+    r = param["r"]
+    delta = param["delta"]
+
+    for i in range(1, n):
+        deltaWv = Wv[i] - Wv[i-1]
+        deltaWs = Ws[i] - Ws[i-1]
+        sqrt_V[i] = (sqrt_V[i-1] + (kappa * theta - kappa * sqrt_V[i-1]**2
+                                    - (sigma**2)/4) * delta/2/sqrt_V[i-1] + sigma * deltaWv/2)
+        V[i] = V[i-1] + kappa * (theta - V[i-1]) * delta + sigma * V[i-1]**(1/2) * deltaWv
+        z[i] = (r-V[i]/2) * delta + ((1-rho**2) * V[i])**0.5 * deltaWs + rho * V[i]**0.5 * deltaWv
+        S[i] = S[i-1] * np.exp(z[i])
+    return S, z, V, sqrt_V
+
 if __name__ == '__main__':
     n = 1000
-    param = {"r" : 0.005, "k" : 1, "theta" : 0.25, "sigma" : 0.5, "delta" : 0.01, "rho" : 0.0001}
-    S, z, V = generate_stock_data(n, param, "nmle")
-    plt.plot(S)
+    param = {"r": 0.05, "k": 1, "theta": 0.05,
+             "sigma": 0.01, "delta": 0.01, "rho": 0.01}
+    # S, z, V = generate_stock_data(n, param, "nmle")
+    S, z, V, sqrt_V = simulation(n, param)
+    fig, axes = plt.subplots(2, 2)
+    axes[0, 0].plot(S)
+    axes[0, 0].set_title('S')
+    axes[0, 1].plot(z)
+    axes[0, 1].set_title('z')
+    axes[1, 0].plot(V)
+    axes[1, 0].set_title('V')
+    axes[1, 1].plot(sqrt_V)
+    axes[1, 1].set_title('sqrt_V')
+    plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.show()
