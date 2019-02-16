@@ -155,10 +155,6 @@ def maximum_likelyhood_estimation(S, parameters, Consistent=False):
                                            * (P_HAT - KAPTH_HAT[i+1] * V_HAT[:T-1]))**2))
         THETA_HAT[i+1] = (P_HAT + 1/4 * SIGMA_HAT[i+1]**2)/KAPTH_HAT[i+1]
 
-        print("iteration {}: {}".format(i, 2 * KAPTH_HAT[i] * THETA_HAT[i] > SIGMA_HAT[i]**2))
-        print(KAPTH_HAT[i], THETA_HAT[i], SIGMA_HAT[i])
-        print(V_HAT)
-
         for k in range(0, T-1):
             deltaW1[k+1] = (np.log(S[k+1]) - np.log(S[k]) -
                             (R - 1/2 * V_HAT[k]) * delta) / (np.sqrt(V_HAT[k]))
