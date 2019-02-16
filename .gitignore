@@ -6,5 +6,5 @@ Datasets
 .RData
 .Rhistory
 .vscode
-Project/v_hat.out
+*.out
 __pycache__
