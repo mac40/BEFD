@@ -107,7 +107,7 @@ def simulation(n, param):
         S[i] = S[i-1] * np.exp(z[i])
     return S, z, V, sqrt_V
 
-def nmle(V_HAT, delta, R):
+def nmle(V_HAT, S, delta, R):
     '''
     parameter estimation from simulated volatilities
     '''
@@ -166,5 +166,5 @@ if __name__ == '__main__':
     plt.subplots_adjust(wspace=0.4, hspace=0.4)
     plt.show()
 
-    KAPTH_HAT, SIGMA_HAT, THETA_HAT, RO_HAT = nmle(V, delta=0.01, R=0.005)
+    KAPTH_HAT, SIGMA_HAT, THETA_HAT, RO_HAT = nmle(V, S, delta=0.01, R=0.005)
     print(KAPTH_HAT, SIGMA_HAT, THETA_HAT, RO_HAT)
