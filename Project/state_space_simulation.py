@@ -150,7 +150,7 @@ if __name__ == '__main__':
     # initialization parameters
     n = 3000
     param = {"r": 0.005, "k": 1, "theta": 0.25,
-             "sigma": 0.5, "delta": 0.01, "rho": 0.001}
+             "sigma": 0.5, "delta": 0.01, "rho": -0.005}
 
     # simulation
     S, z, V = generate_stock_data(n, param, 'nmle')

@@ -36,7 +36,7 @@ def consistent_extended_kalman_filter(S, KAPTH_HAT, THETA_HAT,
     deltaR = np.zeros(len(S))  # Consistency variable
 
     # INITIALIZATION
-    V_HAT[0] = 1
+    V_HAT[0] = 0.3
     P[0] = 0.1
 
     for i in range(1, len(S)):
@@ -180,9 +180,9 @@ if __name__ == "__main__":
     # data = np.array(data[-10000:].Close)
 
     # SIMULATED DATA
-    param = {"r": 0.05, "k": 1, "theta": 0.05,
-             "sigma": 0.01, "delta": 0.01, "rho": 0.01}
-    data = sss.simulation(1000, param)[0]
+    param = {"r": 0.005, "k": 1, "theta": 0.25,
+             "sigma": 0.5, "delta": 0.01, "rho": -0.005}
+    data = sss.generate_stock_data(1000, param, "euler")[0]
 
     Volatility = maximum_likelyhood_estimation(data, param, sys.argv[2])
     print(Volatility)
